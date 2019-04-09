@@ -2,14 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameHandler : MonoBehaviour
 {
     public static GameHandler instance = null;
-    public int currentDoorNumber;
 
     public GameObject player;
+
+    [Header("SceneManagement")]
+    public int currentDoorNumber;
     public GameObject[] doorArray;
+
+    [Header("Data")]
+
+    [Header("GUI")]
+
+    //crosshair kan straks naar playerinteract. ook in awake.
+    [SerializeField] private Image crosshair;
+    [SerializeField] private Sprite[] crosshairImage;
+    [SerializeField] private Image deepWaterMask;
 
     private void Awake()
     {
@@ -32,6 +44,12 @@ public class GameHandler : MonoBehaviour
         {
             doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         }
+
+        crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
+        crosshair.sprite = crosshairImage[0];
+
+        deepWaterMask = GameObject.Find("DeepWaterMask").GetComponent<Image>();
+        deepWaterMask.enabled = false;
 
         LockCursor();
     }
