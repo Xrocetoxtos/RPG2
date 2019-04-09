@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 10f;
+    public float moveSpeed = 6f;
+    public float backBrake = 0.67f;
+    public float sprintMultiplier = 2f;
+    private bool isRunning = false;
+    private float actualMoveSpeed;
 
     private float moveTranslation;
     private float moveStraffe;
@@ -14,7 +18,7 @@ public class PlayerMove : MonoBehaviour
         GetMoveInput();
         if (moveTranslation != 0f || moveStraffe != 0f)
         {
-            moveSpeed = GetMoveSpeed();
+            actualMoveSpeed = GetMoveSpeed();
             MovePlayer();
         }
     }
@@ -23,16 +27,36 @@ public class PlayerMove : MonoBehaviour
     {
         moveTranslation = Input.GetAxis("Vertical");
         moveStraffe = Input.GetAxis("Horizontal");
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
     }
 
     private float GetMoveSpeed()
     {
-        return moveSpeed;
+        float speed = moveSpeed;
+
+        if(isRunning)
+        {
+            speed *= sprintMultiplier;
+        }
+
+        if(moveTranslation<0f)
+        {
+            speed *= backBrake;
+        }
+
+        return speed;
     }
 
     private void MovePlayer()
     {
-        float frameSpeed = moveSpeed * Time.deltaTime;
+        float frameSpeed = actualMoveSpeed * Time.deltaTime;
         transform.Translate(moveStraffe * frameSpeed, 0, moveTranslation * frameSpeed);
     }
 
