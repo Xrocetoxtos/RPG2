@@ -9,6 +9,7 @@ public class GameHandler : MonoBehaviour
     public static GameHandler instance = null;
 
     public GameObject player;
+    private PlayerState playerState;
 
     [Header("SceneManagement")]
     public int currentDoorNumber;
@@ -50,6 +51,8 @@ public class GameHandler : MonoBehaviour
 
         deepWaterMask = GameObject.Find("DeepWaterMask").GetComponent<Image>();
         deepWaterMask.enabled = false;
+
+        playerState = player.GetComponent<PlayerState>();
 
         LockCursor();
     }
