@@ -6,31 +6,58 @@ public class PlayerState : MonoBehaviour
 {
     public bool isRunning = false;
     public bool isCrouching = false;
-    public GameObject standingPlayer;
-    public GameObject crouchingPlayer;
+    [SerializeField] private KeyCode crouchKey;
+
+    private CharacterController characterController;
+    private Transform playerCamera;
+    public PlayerLook playerLook;
+    private Vector3 upDownCam = new Vector3(0f, .5f, 0f);
+    private Vector3 upDownBody = new Vector3(0f, .2f, 0f);
+
 
     private void Awake()
     {
+        characterController = GetComponent<CharacterController>();
+        playerCamera = transform.Find("PlayerCamera");
+        playerLook = playerCamera.gameObject.GetComponent<PlayerLook>();
+    }
 
-        
+    private void Update()
+    {
+        CrouchInput();
+    }
+
+    private void CrouchInput()
+    {
+        if (Input.GetKeyDown(crouchKey))
+        {
+            if(isCrouching)
+            {
+                PlayerStanding();
+            }
+            else
+            {
+                PlayerCrouching();
+            }
+        }
     }
 
     public void PlayerStanding()
     {
         isCrouching = false;
-        SetActiveState();
+        characterController.height = 2;
+        playerCamera.position += upDownCam;
+        transform.position += upDownBody;
+        playerLook.clampValue = playerLook.clampStanding;
     }
 
     public void PlayerCrouching()
     {
         isCrouching = true;
-        SetActiveState();
-    }
-
-    private void SetActiveState()
-    {
-        standingPlayer.SetActive(!isCrouching);
-        crouchingPlayer.SetActive(isCrouching);
+        characterController.height = 1.4f;
+        playerCamera.position -= upDownCam;
+        transform.position -= upDownBody;
+        playerLook.clampValue = playerLook.clampCrouching;
     }
 }
 

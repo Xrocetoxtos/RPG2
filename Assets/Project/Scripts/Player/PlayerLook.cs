@@ -6,9 +6,11 @@ public class PlayerLook : MonoBehaviour
 {
     private Vector2 mouseLook;
     private Vector2 smoothV;
-    
-    public float sensitivity=5f;
-    public float smoothing=2f;
+
+    public float sensitivity = 5f;
+    public float smoothing = 2f;
+    public float clampStanding = 90f;
+    public float clampCrouching = 60f;
     public float clampValue = 90f;
 
     private GameObject player;
@@ -21,8 +23,8 @@ public class PlayerLook : MonoBehaviour
     private void Update()
     {
         GetLookInput();
-        if(mouseLook != Vector2.zero)
-            {
+        if (mouseLook != Vector2.zero)
+        {
             LookCamera();
         }
     }

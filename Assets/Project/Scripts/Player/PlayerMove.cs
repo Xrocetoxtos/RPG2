@@ -4,104 +4,127 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    private CharacterController charController;
     private PlayerState playerState;
-    public float moveSpeed = 6f;
-    public float backBrake = 0.67f;
-    public float crouchBrake = .5f;
-    public float sprintMultiplier = 2f;
-    private float actualMoveSpeed;
 
-    private float moveTranslation;
-    private float moveStraffe;
+    [SerializeField] private string horizontalInputName, verticalInputName;
+    private float horizInput, vertInput;
+    private Vector3 forwardMovement, rightMovement;
+
+    [SerializeField] private float walkSpeed, runSpeed;
+    [SerializeField] private float runBuildUpSpeed;
+    [SerializeField] private float crouchBrake, backBrake;
+    [SerializeField] private KeyCode runKey;
+
+    private float movementSpeed, actualMovementSpeed;
+
+    [SerializeField] private float slopeForce;
+    [SerializeField] private float slopeForceRayLength;
+    
+    [SerializeField] private AnimationCurve jumpFallOff;
+    [SerializeField] private float jumpMultiplier;
+    [SerializeField] private KeyCode jumpKey;
+    
+    private bool isJumping;
 
     private void Awake()
     {
+        charController = GetComponent<CharacterController>();
         playerState = GetComponent<PlayerState>();
     }
 
     private void Update()
     {
         GetMoveInput();
-        if (moveTranslation != 0f || moveStraffe != 0f)
+
+        if (horizInput != 0 || vertInput != 0)
         {
-            actualMoveSpeed = GetMoveSpeed();
-            MovePlayer();
+            SetMovementSpeed();
         }
+        PlayerMovement();
+        JumpInput();
     }
 
     private void GetMoveInput()
     {
-        moveTranslation = Input.GetAxis("Vertical");
-        moveStraffe = Input.GetAxis("Horizontal");
+        horizInput = Input.GetAxis(horizontalInputName);
+        vertInput = Input.GetAxis(verticalInputName);
 
-        PlayerRun();
-        PlayerCrouch();
-        PlayerJump();
+        forwardMovement = transform.forward * vertInput;
+        rightMovement = transform.right * Input.GetAxis(horizontalInputName);
     }
 
-    private void PlayerRun()
+    private void PlayerMovement()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            playerState.isRunning = true;
-        }
+        charController.SimpleMove(Vector3.ClampMagnitude(forwardMovement + rightMovement, 1.0f) * actualMovementSpeed);
+
+        if ((vertInput != 0 || horizInput != 0) && OnSlope())
+            charController.Move(Vector3.down * charController.height / 2 * slopeForce * Time.deltaTime);
+
+
+
+    }
+
+    private void SetMovementSpeed()
+    {
+        Debug.Log(vertInput + "  "  + playerState.isCrouching + "   " + actualMovementSpeed);
+        if (Input.GetKey(runKey))
+            movementSpeed = Mathf.Lerp(movementSpeed, runSpeed, Time.deltaTime * runBuildUpSpeed);
         else
+            movementSpeed = Mathf.Lerp(movementSpeed, walkSpeed, Time.deltaTime * runBuildUpSpeed);
+
+        actualMovementSpeed = movementSpeed;
+        if (playerState.isCrouching)
         {
-            playerState.isRunning = false;
+            actualMovementSpeed *= crouchBrake;
+        }
+        if (vertInput<0)
+        {
+            actualMovementSpeed *= backBrake;
         }
     }
 
-    private void PlayerCrouch()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            Debug.Log(playerState.isCrouching);
 
-            if (!playerState.isCrouching)
+    private bool OnSlope()
+    {
+        if (isJumping)
+            return false;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, charController.height / 2 * slopeForceRayLength))
+            if (hit.normal != Vector3.up)
             {
-                playerState.PlayerCrouching();
+                return true;
             }
-            else
-            {
-                playerState.PlayerStanding();
-            }
-            Debug.Log(playerState.isCrouching);
 
+        return false;
+    }
 
-
+    private void JumpInput()
+    {
+        if (Input.GetKeyDown(jumpKey) && !isJumping)
+        {
+            isJumping = true;
+            StartCoroutine(JumpEvent());
         }
     }
 
-    private void PlayerJump()
+
+    private IEnumerator JumpEvent()
     {
-
-    }
-
-    private float GetMoveSpeed()
-    {
-        float speed = moveSpeed;
-
-        if(playerState.isRunning)
+        charController.slopeLimit = 90.0f;
+        float timeInAir = 0.0f;
+        do
         {
-            speed *= sprintMultiplier;
-        }
+            float jumpForce = jumpFallOff.Evaluate(timeInAir);
+            charController.Move(Vector3.up * jumpForce * jumpMultiplier * Time.deltaTime);
+            timeInAir += Time.deltaTime;
+            yield return null;
+        } while (!charController.isGrounded && charController.collisionFlags != CollisionFlags.Above);
 
-        if(moveTranslation<0f)
-        {
-            speed *= backBrake;
-        }
-        if(playerState.isCrouching)
-        {
-            speed *= crouchBrake;
-        }
-
-        return speed;
-    }
-
-    private void MovePlayer()
-    {
-        float frameSpeed = actualMoveSpeed * Time.deltaTime;
-        transform.Translate(moveStraffe * frameSpeed, 0, moveTranslation * frameSpeed);
+        charController.slopeLimit = 45.0f;
+        isJumping = false;
     }
 
 }
