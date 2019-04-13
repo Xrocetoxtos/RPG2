@@ -13,7 +13,7 @@ public class PlayerLook : MonoBehaviour
     public float clampCrouching = 60f;
     public float clampValue = 90f;
 
-    private GameObject player;
+    public GameObject player;
 
     private void Start()
     {

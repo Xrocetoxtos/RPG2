@@ -67,7 +67,6 @@ public class PlayerMove : MonoBehaviour
 
     private void SetMovementSpeed()
     {
-        Debug.Log(vertInput + "  "  + playerState.isCrouching + "   " + actualMovementSpeed);
         if (Input.GetKey(runKey))
             movementSpeed = Mathf.Lerp(movementSpeed, runSpeed, Time.deltaTime * runBuildUpSpeed);
         else
@@ -115,16 +114,22 @@ public class PlayerMove : MonoBehaviour
     {
         charController.slopeLimit = 90.0f;
         float timeInAir = 0.0f;
+        float forceMultiplier = 1;
+        //bukkend springen is half zo sterk.
+        if (playerState.isCrouching)
+        {
+             forceMultiplier= .5f;
+        }
         do
         {
             float jumpForce = jumpFallOff.Evaluate(timeInAir);
-            charController.Move(Vector3.up * jumpForce * jumpMultiplier * Time.deltaTime);
+            charController.Move(Vector3.up * jumpForce * forceMultiplier * jumpMultiplier * Time.deltaTime);
             timeInAir += Time.deltaTime;
             yield return null;
         } while (!charController.isGrounded && charController.collisionFlags != CollisionFlags.Above);
 
         charController.slopeLimit = 45.0f;
         isJumping = false;
-    }
+        }
 
 }

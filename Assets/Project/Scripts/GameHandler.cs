@@ -10,6 +10,7 @@ public class GameHandler : MonoBehaviour
 
     public GameObject player;
     private PlayerState playerState;
+    public Transform currentTransform;
 
     [Header("SceneManagement")]
     public int currentDoorNumber;
@@ -53,6 +54,7 @@ public class GameHandler : MonoBehaviour
         deepWaterMask.enabled = false;
 
         playerState = player.GetComponent<PlayerState>();
+        //playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
 
         LockCursor();
     }
@@ -67,10 +69,10 @@ public class GameHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void LoadScene(int passedDoorNumber, int passedSceneNumber)
+    public void LoadScene(int passedDoorNumber, int passedSceneNumber, Transform doorTransform)
     {
-        Debug.Log("player" + player.transform.position);
         currentDoorNumber = passedDoorNumber;
+        currentTransform = doorTransform;
 
         int index = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(passedSceneNumber);
@@ -83,12 +85,14 @@ public class GameHandler : MonoBehaviour
 
         for (int i=0; i<doorArray.Length; i++)
         {
-            if(doorArray[i].GetComponent<DoorScene>().doorNumber == currentDoorNumber)
+            DoorScene doorScene = doorArray[i].GetComponent<DoorScene>();
+            if (doorScene.doorNumber == currentDoorNumber)
             {
-                Debug.Log(doorArray[i].transform.position);
-
+                //player naar de locatie van de deur verplaatsen
                 player.transform.position = doorArray[i].transform.position;
-
+                player.transform.rotation = instance.currentTransform.rotation;
+                currentDoorNumber = 0;
+                return;
             }
         }
     }
