@@ -49,4 +49,12 @@ public class PlayerLook : MonoBehaviour
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
         player.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, player.transform.up);
     }
+
+    public void LookCameraExternal(Quaternion look)
+    {
+        player = this.transform.parent.gameObject;
+
+        transform.localRotation = look;
+        player.transform.localRotation = look;
+    }
 }

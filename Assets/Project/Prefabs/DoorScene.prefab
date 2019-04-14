@@ -46,7 +46,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4, y: 2, z: 4}
-  m_Center: {x: 1.1, y: 0, z: -2}
+  m_Center: {x: 1, y: 0, z: -1}
 --- !u!114 &7099966327773789020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +61,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorNumber: 1
   doorSceneNumber: 1
-  orientation: {fileID: 8259049248463091599}
 --- !u!1 &4680922819768714427
 GameObject:
   m_ObjectHideFlags: 0

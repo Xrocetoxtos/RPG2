@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CodeMonkey.Utils;
 
 public class GameHandler : MonoBehaviour
 {
@@ -10,13 +11,16 @@ public class GameHandler : MonoBehaviour
 
     public GameObject player;
     private PlayerState playerState;
-    public Transform currentTransform;
 
     [Header("SceneManagement")]
     public int currentDoorNumber;
     public GameObject[] doorArray;
+    public Quaternion doorRotation;
+    public PlayerLook playerLook;
+    private int index;
 
     [Header("Data")]
+    public bool isPaused = false;
 
     [Header("GUI")]
 
@@ -54,9 +58,31 @@ public class GameHandler : MonoBehaviour
         deepWaterMask.enabled = false;
 
         playerState = player.GetComponent<PlayerState>();
-        //playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
+        playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
 
         LockCursor();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            Paused();
+        }
+    }
+
+    public void Paused()
+    {
+        if (isPaused)
+        {
+            Time.timeScale = 1;
+            isPaused = false;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            isPaused = true;
+        }
     }
 
     public void LockCursor()
@@ -69,10 +95,9 @@ public class GameHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void LoadScene(int passedDoorNumber, int passedSceneNumber, Transform doorTransform)
+    public void LoadScene(int passedDoorNumber, int passedSceneNumber)
     {
         currentDoorNumber = passedDoorNumber;
-        currentTransform = doorTransform;
 
         int index = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(passedSceneNumber);
@@ -82,18 +107,25 @@ public class GameHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
+        playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
+
 
         for (int i=0; i<doorArray.Length; i++)
         {
             DoorScene doorScene = doorArray[i].GetComponent<DoorScene>();
             if (doorScene.doorNumber == currentDoorNumber)
             {
-                //player naar de locatie van de deur verplaatsen
-                player.transform.position = doorArray[i].transform.position;
-                player.transform.rotation = instance.currentTransform.rotation;
-                currentDoorNumber = 0;
-                return;
+                index = i;
+                FunctionTimer.Create(() => PlayerInNewScene(), .1f);
             }
         }
+    }
+
+    private void PlayerInNewScene()
+    {
+        //player naar de locatie van de deur verplaatsen
+        player.transform.position = doorArray[index].transform.position;
+        playerLook.transform.position = doorArray[index].transform.position;
+        playerLook.LookCameraExternal(instance.doorRotation);
     }
 }
