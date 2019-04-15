@@ -14,18 +14,23 @@ public class PlayerLook : MonoBehaviour
     public float clampValue = 90f;
 
     public GameObject player;
+    private GameHandler gameHandler;
 
     private void Start()
     {
         player = this.transform.parent.gameObject;
+        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
     }
 
     private void Update()
     {
-        GetLookInput();
-        if (mouseLook != Vector2.zero)
+        if (!gameHandler.isPaused)
         {
-            LookCamera();
+            GetLookInput();
+            if (mouseLook != Vector2.zero)
+            {
+                LookCamera();
+            }
         }
     }
 

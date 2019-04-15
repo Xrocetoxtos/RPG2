@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
+using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameHandler : MonoBehaviour
 
     public GameObject player;
     private PlayerState playerState;
+    public Inventory playerInventory;
 
     [Header("SceneManagement")]
     public int currentDoorNumber;
@@ -23,10 +25,11 @@ public class GameHandler : MonoBehaviour
     public bool isPaused = false;
 
     [Header("GUI")]
+    public TextMeshProUGUI guiMessage;
+    public TextMeshProUGUI guiMessage2;
+    private float guiTextTimer = 0f;
+    private float guiTextTimerMax = 2f;
 
-    //crosshair kan straks naar playerinteract. ook in awake.
-    [SerializeField] private Image crosshair;
-    [SerializeField] private Sprite[] crosshairImage;
     [SerializeField] private Image deepWaterMask;
 
     private void Awake()
@@ -41,45 +44,63 @@ public class GameHandler : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (player ==null)
+        InitReferences();
+        LockCursor();
+    }
+
+    private void InitReferences()
+    {
+        if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            playerState = player.GetComponent<PlayerState>();
+            playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
         }
 
-        if(doorArray==null ||doorArray.Length==0)
+        if (doorArray == null || doorArray.Length == 0)
         {
             doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         }
 
-        crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
-        crosshair.sprite = crosshairImage[0];
+        playerInventory = new Inventory();
 
+        //GUI elementen
         deepWaterMask = GameObject.Find("DeepWaterMask").GetComponent<Image>();
         deepWaterMask.enabled = false;
 
-        playerState = player.GetComponent<PlayerState>();
-        playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
-
-        LockCursor();
+        guiMessage = GameObject.Find("GUIMessage").GetComponent<TextMeshProUGUI>();
+        guiMessage.SetText("");
+        guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
+        guiMessage2.SetText("");
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        ReconsiderGUI();
+        GetInput();
+    }
+
+    private void GetInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Pause))
         {
             Paused();
         }
     }
 
+    // Game States
     public void Paused()
     {
         if (isPaused)
         {
             Time.timeScale = 1;
             isPaused = false;
+            ViewBothGUIMessages("", "");
         }
         else
         {
+            ViewGUImessage(guiMessage, "Game paused.");
+            ViewGUImessage(guiMessage2, "");
             Time.timeScale = 0;
             isPaused = true;
         }
@@ -95,6 +116,33 @@ public class GameHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    //GUI
+    public void ViewBothGUIMessages(string text, string text2)
+    {
+        ViewGUImessage(guiMessage, text);
+        ViewGUImessage(guiMessage2, text2);
+    }
+
+    public void ViewGUImessage(TextMeshProUGUI tekstveld, string text, float timerMax=3f)
+    {
+        tekstveld.SetText(text);
+
+        guiTextTimer = 0f;
+        guiTextTimerMax = timerMax;
+    }
+
+    private void ReconsiderGUI()
+    {
+        guiTextTimer += Time.deltaTime;
+        if (guiTextTimer> guiTextTimerMax && !isPaused)
+        {
+            guiTextTimer = 0;
+            ViewBothGUIMessages("", "");
+        }
+    }
+
+
+    //Scenemanagement
     public void LoadScene(int passedDoorNumber, int passedSceneNumber)
     {
         currentDoorNumber = passedDoorNumber;

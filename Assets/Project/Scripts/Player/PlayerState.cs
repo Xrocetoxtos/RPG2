@@ -14,12 +14,16 @@ public class PlayerState : MonoBehaviour
     private Vector3 upDownCam = new Vector3(0f, .5f, 0f);
     private Vector3 upDownBody = new Vector3(0f, .2f, 0f);
 
+    public HealthSystem healthSystem;
+    public Inventory inventory = new Inventory();
+
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         playerCamera = transform.Find("PlayerCamera");
         playerLook = playerCamera.gameObject.GetComponent<PlayerLook>();
+        healthSystem = new HealthSystem(100, 100);
     }
 
     private void Update()

@@ -100,6 +100,7 @@ MonoBehaviour:
   clampStanding: 90
   clampCrouching: 60
   clampValue: 90
+  player: {fileID: 0}
 --- !u!1 &1898725910729533634
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +113,7 @@ GameObject:
   - component: {fileID: 1898725910729533632}
   - component: {fileID: 1898725910729533635}
   - component: {fileID: 1951517057}
+  - component: {fileID: 6937396158007014079}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -216,3 +218,15 @@ MonoBehaviour:
   isCrouching: 0
   crouchKey: 306
   playerLook: {fileID: 0}
+--- !u!114 &6937396158007014079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898725910729533634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a034adb75b2003f4c927770b9970c6fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
