@@ -230,3 +230,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a034adb75b2003f4c927770b9970c6fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameHandler: {fileID: 0}
+  grabDistance: 3
+  seeDistance: 15
+  cam: {fileID: 0}
+  crosshair: {fileID: 0}
+  crosshairImage:
+  - {fileID: 21300000, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300002, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300004, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300006, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300008, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300010, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300012, guid: 73db186fc73bf064397240dea79ec47f, type: 3}
+  - {fileID: 21300014, guid: 73db186fc73bf064397240dea79ec47f, type: 3}

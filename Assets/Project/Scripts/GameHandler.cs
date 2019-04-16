@@ -25,6 +25,7 @@ public class GameHandler : MonoBehaviour
     public bool isPaused = false;
 
     [Header("GUI")]
+    public Image black;
     public TextMeshProUGUI guiMessage;
     public TextMeshProUGUI guiMessage2;
     private float guiTextTimer = 0f;
@@ -65,6 +66,8 @@ public class GameHandler : MonoBehaviour
         playerInventory = new Inventory();
 
         //GUI elementen
+        black = GameObject.Find("BlackBackground").GetComponent<Image>();
+
         deepWaterMask = GameObject.Find("DeepWaterMask").GetComponent<Image>();
         deepWaterMask.enabled = false;
 
@@ -156,20 +159,21 @@ public class GameHandler : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
-
+        black.enabled =true;
 
         for (int i=0; i<doorArray.Length; i++)
         {
             DoorScene doorScene = doorArray[i].GetComponent<DoorScene>();
             if (doorScene.doorNumber == currentDoorNumber)
             {
-                index = i;
-                FunctionTimer.Create(() => PlayerInNewScene(), .1f);
+                //FunctionTimer.Create(() => PlayerInNewScene(i), 2f);
+                PlayerInNewScene(i);
             }
         }
+        black.enabled = false;
     }
 
-    private void PlayerInNewScene()
+    private void PlayerInNewScene(int index)
     {
         //player naar de locatie van de deur verplaatsen
         player.transform.position = doorArray[index].transform.position;

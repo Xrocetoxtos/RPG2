@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+    public static PlayerState instance = null;
+
     public bool isRunning = false;
     public bool isCrouching = false;
     [SerializeField] private KeyCode crouchKey;
@@ -20,10 +22,19 @@ public class PlayerState : MonoBehaviour
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        playerCamera = transform.Find("PlayerCamera");
-        playerLook = playerCamera.gameObject.GetComponent<PlayerLook>();
-        healthSystem = new HealthSystem(100, 100);
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+            characterController = GetComponent<CharacterController>();
+            playerCamera = transform.Find("PlayerCamera");
+            playerLook = playerCamera.gameObject.GetComponent<PlayerLook>();
+            healthSystem = new HealthSystem(100, 100);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()

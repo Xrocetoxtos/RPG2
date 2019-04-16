@@ -120,7 +120,6 @@ public class PlayerInteract : MonoBehaviour
 
     private int SetCrosshairState(float distance)
     {
-        Debug.Log(distance);
         if (distance < 1) return 7;
         else if (distance < 3) return 6;
         else if (distance < 5) return 5;
