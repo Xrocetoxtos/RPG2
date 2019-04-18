@@ -159,21 +159,25 @@ public class GameHandler : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
-        black.enabled =true;
+        black.enabled = true;
+        InitScene();
+    }
 
+    private void InitScene()
+    { 
         for (int i=0; i<doorArray.Length; i++)
         {
             DoorScene doorScene = doorArray[i].GetComponent<DoorScene>();
             if (doorScene.doorNumber == currentDoorNumber)
             {
-                //FunctionTimer.Create(() => PlayerInNewScene(i), 2f);
-                PlayerInNewScene(i);
+                index = i;
+                PlayerInNewScene();
             }
         }
         black.enabled = false;
     }
 
-    private void PlayerInNewScene(int index)
+    private void PlayerInNewScene()
     {
         //player naar de locatie van de deur verplaatsen
         player.transform.position = doorArray[index].transform.position;

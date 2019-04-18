@@ -1,13 +1,25 @@
 ﻿using System.Collections.Generic;
+using System;
+using UnityEngine;
 
 
-public class Inventory
+public class Inventory : MonoBehaviour
 {
-    private int creatureCoins = 0;
-    private List<WorldObject> creatureInventory = new List<WorldObject>();
+    public int creatureCoins = 0;
+    public List<WorldObject> creatureInventory = new List<WorldObject>();
     // TODO - een verwijzing naar de display.
     
     //Items
+    public string AllItems()
+    {
+        string itemsInInventory = "*";
+        foreach(WorldObject item in creatureInventory)
+        {
+            itemsInInventory += item.objectTitle + " - ";
+        }
+        return itemsInInventory;
+    }
+
     public WorldObject GetItem(WorldObject item)
     {
         if(creatureInventory.Contains(item))

@@ -237,7 +237,7 @@ MonoBehaviour:
   objectTitle: Red ball
   objectDescription: Ball of a red colour.
   objectType: 1
-  objectScene: 1
+  objectScene: 0
   objectTransform: {fileID: 0}
   objectIsThere: 1
 --- !u!1 &170076733
@@ -1007,11 +1007,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  playerInventory:
+    creatureCoins: 0
+    creatureInventory: []
   currentDoorNumber: 0
   doorArray: []
   doorRotation: {x: 0, y: 0, z: 0, w: 0}
   playerLook: {fileID: 0}
   isPaused: 0
+  black: {fileID: 0}
   guiMessage: {fileID: 0}
   guiMessage2: {fileID: 0}
   deepWaterMask: {fileID: 0}
