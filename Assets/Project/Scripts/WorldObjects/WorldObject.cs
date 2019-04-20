@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WorldObject : MonoBehaviour
@@ -16,9 +14,17 @@ public class WorldObject : MonoBehaviour
     public Transform objectTransform;
     public bool objectIsThere = true;
 
+    //deurgegevens
+    public Door door;
+
     private void Awake()
     {
         objectTransform = transform;
+        if (objectType ==ObjectType.Door)
+        {
+            Debug.Log("deur");
+            door = GetComponentInParent<Door>();
+        }
         if(objectScene == SceneManager.GetActiveScene().buildIndex && objectIsThere)
         {
             gameObject.SetActive(true);

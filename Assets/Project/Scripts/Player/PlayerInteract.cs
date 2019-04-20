@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private GameHandler gameHandler;
+    Inventory inventory;
 
     [SerializeField] private float grabDistance;
     [SerializeField] private float seeDistance;
@@ -26,6 +25,8 @@ public class PlayerInteract : MonoBehaviour
         gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
         crosshair.sprite = crosshairImage[0];
+        inventory = GetComponent<Inventory>();
+
     }
     private void Update()
     {
@@ -43,6 +44,7 @@ public class PlayerInteract : MonoBehaviour
         {
             crosshair.sprite = crosshairImage[SetCrosshairState(hit.distance)];
             WorldObject worldObject = hit.collider.gameObject.GetComponent<WorldObject>();
+                
             // als dat iets raakt, check of het Worldobject is
             if (worldObject != null)
             {
@@ -69,6 +71,18 @@ public class PlayerInteract : MonoBehaviour
                 case ObjectType.Interactable:
                     message2 = "Press E to interact.";
                     break;
+                case ObjectType.Door:
+                    {
+                        if (worldObject.GetComponentInParent<Door>().isOpen)
+                        {
+                            message2 = "Press E to close.";
+                        }
+                        else
+                        {
+                            message2 = "Press E to open.";
+                        }
+                        break;
+                    }
             }
             InputInteractWorldObject(worldObject);
         }
@@ -96,6 +110,9 @@ public class PlayerInteract : MonoBehaviour
                 case ObjectType.Interactable:
                     ExamineWorldObject(worldObject);
                     break;
+                case ObjectType.Door:
+                    OpenCloseDoor(worldObject);
+                    break;
             }
         }
     }
@@ -107,7 +124,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void PickupWorldObject(WorldObject worldObject)
     {
-        gameHandler.playerInventory.AddItem(worldObject);
+       inventory.AddItem(worldObject);
         gameHandler.ViewBothGUIMessages(worldObject.objectTitle, "picked up.");
         worldObject.gameObject.SetActive(false);
         justPickedUp = true;
@@ -116,6 +133,19 @@ public class PlayerInteract : MonoBehaviour
     private void ExamineWorldObject(WorldObject worldObject)
     {
         justExamined = true;
+    }
+
+    private void OpenCloseDoor(WorldObject worldObject)
+    {
+        Door door = worldObject.GetComponentInParent<Door>();
+        if (door.isOpen)
+        {
+            door.CloseDoor();
+        }
+        else
+        {
+            door.OpenDoor();
+        }
     }
 
     private int SetCrosshairState(float distance)

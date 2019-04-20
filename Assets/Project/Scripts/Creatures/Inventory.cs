@@ -2,7 +2,6 @@
 using System;
 using UnityEngine;
 
-
 public class Inventory : MonoBehaviour
 {
     public int creatureCoins = 0;

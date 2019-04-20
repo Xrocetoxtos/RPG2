@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using CodeMonkey.Utils;
 using TMPro;
 
 public class GameHandler : MonoBehaviour
@@ -12,7 +11,6 @@ public class GameHandler : MonoBehaviour
 
     public GameObject player;
     private PlayerState playerState;
-    public Inventory playerInventory;
 
     [Header("SceneManagement")]
     public int currentDoorNumber;
@@ -62,8 +60,6 @@ public class GameHandler : MonoBehaviour
         {
             doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         }
-
-        playerInventory = new Inventory();
 
         //GUI elementen
         black = GameObject.Find("BlackBackground").GetComponent<Image>();

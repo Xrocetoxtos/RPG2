@@ -2,5 +2,6 @@
 {
     NPC,
     Item,
-    Interactable
+    Interactable,
+    Door
 }
