@@ -43,11 +43,11 @@ public class PlayerInteract : MonoBehaviour
         if (Physics.Raycast(ray, out hit, seeDistance))
         {
             crosshair.sprite = crosshairImage[SetCrosshairState(hit.distance)];
-            WorldObject worldObject = hit.collider.gameObject.GetComponent<WorldObject>();
                 
             // als dat iets raakt, check of het Worldobject is
-            if (worldObject != null)
+            if (hit.collider.gameObject.tag == "InteractObject")
             {
+                WorldObject worldObject = hit.collider.gameObject.GetComponent<WorldObject>();
                 GUIShowObject(worldObject, hit);
             }
         }
@@ -124,7 +124,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void PickupWorldObject(WorldObject worldObject)
     {
-       inventory.AddItem(worldObject);
+        inventory.AddItem(worldObject);
         gameHandler.ViewBothGUIMessages(worldObject.objectTitle, "picked up.");
         worldObject.gameObject.SetActive(false);
         justPickedUp = true;

@@ -111,7 +111,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0ec1e229fd4ce864d8fee8945dd95dda, type: 2}
 --- !u!1 &131743232
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 131743238}
   m_Layer: 0
   m_Name: Rode bal
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -556,11 +556,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 550807471728003155, guid: acb2a0a350fd23c44a48b0dea20e1c48,
-        type: 3}
-      propertyPath: objectTitle
-      value: Door 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb2a0a350fd23c44a48b0dea20e1c48, type: 3}
 --- !u!4 &564862285 stripped
@@ -675,11 +670,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 550807471728003155, guid: acb2a0a350fd23c44a48b0dea20e1c48,
-        type: 3}
-      propertyPath: objectTitle
-      value: Door 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb2a0a350fd23c44a48b0dea20e1c48, type: 3}
@@ -1313,7 +1303,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &1833100912
 MeshCollider:

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3968717223596922051}
   m_Layer: 0
   m_Name: Door
-  m_TagString: DoorScene
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 550807471728003155}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectNumber: 0
-  objectTitle: Door
+  objectTitle: Door 2
   objectDescription: 
   objectType: 3
   objectScene: 0
