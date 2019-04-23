@@ -29,7 +29,7 @@ public class GameHandler : MonoBehaviour
     private float guiTextTimer = 0f;
     private float guiTextTimerMax = 2f;
 
-    [SerializeField] private Image deepWaterMask;
+    [SerializeField] private GameObject deepWaterMask;
 
     private void Awake()
     {
@@ -63,10 +63,8 @@ public class GameHandler : MonoBehaviour
 
         //GUI elementen
         black = GameObject.Find("BlackBackground").GetComponent<Image>();
-
-        deepWaterMask = GameObject.Find("DeepWaterMask").GetComponent<Image>();
-        deepWaterMask.enabled = false;
-
+        deepWaterMask = GameObject.Find("DeepWaterMask");
+        AboveWater();
         guiMessage = GameObject.Find("GUIMessage").GetComponent<TextMeshProUGUI>();
         guiMessage.SetText("");
         guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
@@ -84,6 +82,27 @@ public class GameHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Pause))
         {
             Paused();
+        }
+        TestHealthBar();
+    }
+
+    private void TestHealthBar()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            playerState.healthSystem.DamageHealth(5);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            playerState.healthSystem.HealHealth(5);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            playerState.healthSystem.DamageEnergy(5);
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            playerState.healthSystem.HealEnergy(5);
         }
     }
 
@@ -140,6 +159,15 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public void UnderWater()
+    {
+        deepWaterMask.SetActive(true);
+    }
+
+    public void AboveWater()
+    {
+        deepWaterMask.SetActive(false);
+    }
 
     //Scenemanagement
     public void LoadScene(int passedDoorNumber, int passedSceneNumber)

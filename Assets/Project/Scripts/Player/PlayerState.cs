@@ -17,6 +17,10 @@ public class PlayerState : MonoBehaviour
     private Vector3 upDownBody = new Vector3(0f, .2f, 0f);
 
     public HealthSystem healthSystem;
+    public HealthBar healthBar;
+    public EnergyBar energyBar;
+    public OxigenBar oxigenBar;
+
     public Inventory inventory;
 
 
@@ -31,6 +35,12 @@ public class PlayerState : MonoBehaviour
             playerLook = playerCamera.gameObject.GetComponent<PlayerLook>();
             inventory = GetComponent<Inventory>();
             healthSystem = new HealthSystem(100, 100);
+            healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+            healthBar.Setup(healthSystem);
+            energyBar = GameObject.Find("FatigueBar").GetComponent<EnergyBar>();
+            energyBar.Setup(healthSystem);
+            oxigenBar = GameObject.Find("OxigenBar").GetComponent<OxigenBar>();
+            oxigenBar.Setup(healthSystem);
         }
         else
         {

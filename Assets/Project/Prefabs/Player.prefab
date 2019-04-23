@@ -412,6 +412,9 @@ MonoBehaviour:
   isCrouching: 0
   crouchKey: 306
   playerLook: {fileID: 0}
+  healthBar: {fileID: 0}
+  energyBar: {fileID: 0}
+  oxigenBar: {fileID: 0}
   inventory: {fileID: 0}
 --- !u!114 &6937396158007014079
 MonoBehaviour:
