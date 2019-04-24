@@ -74,13 +74,9 @@ public class PlayerInteract : MonoBehaviour
                 case ObjectType.Door:
                     {
                         if (worldObject.GetComponentInParent<Door>().isOpen)
-                        {
                             message2 = "Press E to close.";
-                        }
                         else
-                        {
                             message2 = "Press E to open.";
-                        }
                         break;
                     }
             }
@@ -159,5 +155,4 @@ public class PlayerInteract : MonoBehaviour
         else if (distance < 20) return 1;
         return 0;
     }
-
 }

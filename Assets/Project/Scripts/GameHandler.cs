@@ -11,13 +11,7 @@ public class GameHandler : MonoBehaviour
 
     public GameObject player;
     private PlayerState playerState;
-
-    [Header("SceneManagement")]
-    public int currentDoorNumber;
-    public GameObject[] doorArray;
-    public Quaternion doorRotation;
     public PlayerLook playerLook;
-    private int index;
 
     [Header("Data")]
     public bool isPaused = false;
@@ -33,7 +27,7 @@ public class GameHandler : MonoBehaviour
 
     private void Awake()
     {
-        if(instance ==null)
+        if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
@@ -54,11 +48,6 @@ public class GameHandler : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             playerState = player.GetComponent<PlayerState>();
             playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
-        }
-
-        if (doorArray == null || doorArray.Length == 0)
-        {
-            doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
         }
 
         //GUI elementen
@@ -141,7 +130,7 @@ public class GameHandler : MonoBehaviour
         ViewGUImessage(guiMessage2, text2);
     }
 
-    public void ViewGUImessage(TextMeshProUGUI tekstveld, string text, float timerMax=3f)
+    public void ViewGUImessage(TextMeshProUGUI tekstveld, string text, float timerMax = 3f)
     {
         tekstveld.SetText(text);
 
@@ -152,7 +141,7 @@ public class GameHandler : MonoBehaviour
     private void ReconsiderGUI()
     {
         guiTextTimer += Time.deltaTime;
-        if (guiTextTimer> guiTextTimerMax && !isPaused)
+        if (guiTextTimer > guiTextTimerMax && !isPaused)
         {
             guiTextTimer = 0;
             ViewBothGUIMessages("", "");
@@ -169,43 +158,4 @@ public class GameHandler : MonoBehaviour
         deepWaterMask.SetActive(false);
     }
 
-    //Scenemanagement
-    public void LoadScene(int passedDoorNumber, int passedSceneNumber)
-    {
-        currentDoorNumber = passedDoorNumber;
-
-        int index = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(passedSceneNumber);
-    }
-
-    private void OnLevelWasLoaded()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        doorArray = GameObject.FindGameObjectsWithTag("DoorScene");
-        playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
-        black.enabled = true;
-        InitScene();
-    }
-
-    private void InitScene()
-    { 
-        for (int i=0; i<doorArray.Length; i++)
-        {
-            DoorScene doorScene = doorArray[i].GetComponent<DoorScene>();
-            if (doorScene.doorNumber == currentDoorNumber)
-            {
-                index = i;
-                PlayerInNewScene();
-            }
-        }
-        black.enabled = false;
-    }
-
-    private void PlayerInNewScene()
-    {
-        //player naar de locatie van de deur verplaatsen
-        player.transform.position = doorArray[index].transform.position;
-        playerLook.transform.position = doorArray[index].transform.position;
-        playerLook.LookCameraExternal(instance.doorRotation);
-    }
 }
