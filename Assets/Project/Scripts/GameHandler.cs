@@ -12,6 +12,7 @@ public class GameHandler : MonoBehaviour
     public GameObject player;
     private PlayerState playerState;
     public PlayerLook playerLook;
+    public NPC currentEnemy = null;
 
     [Header("Data")]
     public bool isPaused = false;
