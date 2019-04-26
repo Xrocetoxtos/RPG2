@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
@@ -41,6 +39,8 @@ public class PlayerState : MonoBehaviour
             energyBar.Setup(healthSystem);
             oxigenBar = GameObject.Find("OxigenBar").GetComponent<OxigenBar>();
             oxigenBar.Setup(healthSystem);
+            GameObject.Find("GameHandler").GetComponent<GUIHandler>().AboveWater();
+
         }
         else
         {

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private GameHandler gameHandler;
+    private GUIHandler guiHandler;
     Inventory inventory;
 
     [SerializeField] private float grabDistance;
@@ -21,8 +22,10 @@ public class PlayerInteract : MonoBehaviour
 
     private void Awake()
     {
+        GameObject gh = GameObject.Find("GameHandler");
         cam = transform.Find("PlayerCamera").gameObject.GetComponent<Camera>();
-        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
+        gameHandler = gh.GetComponent<GameHandler>();
+        guiHandler = gh.GetComponent<GUIHandler>();
         crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
         crosshair.sprite = crosshairImage[0];
         inventory = GetComponent<Inventory>();
@@ -56,7 +59,7 @@ public class PlayerInteract : MonoBehaviour
     private void GUIShowObject(WorldObject worldObject, RaycastHit hit)
     {
         //als dichtbij is: melding dat je er wat mee kunt doen.
-        gameHandler.ViewGUImessage(gameHandler.guiMessage, worldObject.objectTitle);
+        guiHandler.ViewGUImessage(guiHandler.guiMessage, worldObject.objectTitle);
         string message2 = "";
         if (hit.distance <= grabDistance)
         {
@@ -84,7 +87,7 @@ public class PlayerInteract : MonoBehaviour
         }
         if (!justPickedUp && !justExamined && !justInteracted)
         {
-            gameHandler.ViewGUImessage(gameHandler.guiMessage2, message2);
+            guiHandler.ViewGUImessage(guiHandler.guiMessage2, message2);
         }
         justPickedUp = false;
         justExamined = false;
@@ -121,7 +124,7 @@ public class PlayerInteract : MonoBehaviour
     private void PickupWorldObject(WorldObject worldObject)
     {
         inventory.AddItem(worldObject);
-        gameHandler.ViewBothGUIMessages(worldObject.objectTitle, "picked up.");
+        guiHandler.ViewBothGUIMessages(worldObject.objectTitle, "picked up.");
         worldObject.gameObject.SetActive(false);
         justPickedUp = true;
     }

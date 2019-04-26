@@ -1,30 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
+﻿using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
     public static GameHandler instance = null;
+    public GUIHandler guiHandler;
 
     public GameObject player;
     private PlayerState playerState;
     public PlayerLook playerLook;
+
     public NPC currentEnemy = null;
 
-    [Header("Data")]
     public bool isPaused = false;
-
-    [Header("GUI")]
-    public Image black;
-    public TextMeshProUGUI guiMessage;
-    public TextMeshProUGUI guiMessage2;
-    private float guiTextTimer = 0f;
-    private float guiTextTimerMax = 2f;
-
-    [SerializeField] private GameObject deepWaterMask;
 
     private void Awake()
     {
@@ -46,24 +33,15 @@ public class GameHandler : MonoBehaviour
     {
         if (player == null)
         {
+            guiHandler = GetComponent<GUIHandler>();
             player = GameObject.FindGameObjectWithTag("Player");
             playerState = player.GetComponent<PlayerState>();
             playerLook = player.transform.Find("PlayerCamera").gameObject.GetComponent<PlayerLook>();
         }
-
-        //GUI elementen
-        black = GameObject.Find("BlackBackground").GetComponent<Image>();
-        deepWaterMask = GameObject.Find("DeepWaterMask");
-        AboveWater();
-        guiMessage = GameObject.Find("GUIMessage").GetComponent<TextMeshProUGUI>();
-        guiMessage.SetText("");
-        guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
-        guiMessage2.SetText("");
     }
 
     private void Update()
     {
-        ReconsiderGUI();
         GetInput();
     }
 
@@ -103,12 +81,12 @@ public class GameHandler : MonoBehaviour
         {
             Time.timeScale = 1;
             isPaused = false;
-            ViewBothGUIMessages("", "");
+            guiHandler.ViewBothGUIMessages("", "");
         }
         else
         {
-            ViewGUImessage(guiMessage, "Game paused.");
-            ViewGUImessage(guiMessage2, "");
+            guiHandler.ViewGUImessage(guiHandler.guiMessage, "Game paused.");
+            guiHandler.ViewGUImessage(guiHandler.guiMessage2, "");
             Time.timeScale = 0;
             isPaused = true;
         }
@@ -123,40 +101,4 @@ public class GameHandler : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
     }
-
-    //GUI
-    public void ViewBothGUIMessages(string text, string text2)
-    {
-        ViewGUImessage(guiMessage, text);
-        ViewGUImessage(guiMessage2, text2);
-    }
-
-    public void ViewGUImessage(TextMeshProUGUI tekstveld, string text, float timerMax = 3f)
-    {
-        tekstveld.SetText(text);
-
-        guiTextTimer = 0f;
-        guiTextTimerMax = timerMax;
-    }
-
-    private void ReconsiderGUI()
-    {
-        guiTextTimer += Time.deltaTime;
-        if (guiTextTimer > guiTextTimerMax && !isPaused)
-        {
-            guiTextTimer = 0;
-            ViewBothGUIMessages("", "");
-        }
-    }
-
-    public void UnderWater()
-    {
-        deepWaterMask.SetActive(true);
-    }
-
-    public void AboveWater()
-    {
-        deepWaterMask.SetActive(false);
-    }
-
 }
