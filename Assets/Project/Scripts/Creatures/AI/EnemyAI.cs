@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
     {
         npc = GetComponent<NPC>();
         gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("PlayerReference").transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         npcState = EnemyState.Idle;
@@ -110,6 +110,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCNothing()
     {
+        PassiveEnemy();
         if (nothingTimer < 0f)
         {
             npcState = lastState;
@@ -122,6 +123,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCIdle()
     {
+        PassiveEnemy();
         if (patrolArray.Length != 0)
         {
             //X-aantal seconden idle zijn en dan Patrol
@@ -144,6 +146,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCPatrol()
     {
+        PassiveEnemy();
         patrolPosition = patrolArray[patrolIndex].position;
         //ben ik er al?
         if (Vector3.Distance(transform.position, patrolPosition) < moveSpeed)
@@ -190,12 +193,14 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCBusy()
     {
+        PassiveEnemy();
         // een animatie dat ie iets doet
         // lage alertness
     }
 
     private void NPCChase()
     {
+        ActiveEnemy();
         //achter de player aan gaan en stoppen op een locatie die bij je past, mele, ranged of friendly
         if (SeesPlayer())
         {
@@ -210,6 +215,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCAttack()
     {
+        ActiveEnemy();
         if (SeesPlayer())
         {
             switch (DecideMeleeArcher())
@@ -233,6 +239,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCSearch()
     {
+        ActiveEnemy();
         // nog kijken hoe. nu even terug op patrouille
         npcState = EnemyState.Patrol;
     }
@@ -310,9 +317,14 @@ public class EnemyAI : MonoBehaviour
             if (angleToPlayer < viewAngle)
             {
                 //zicht niet geblokkeerd
-                if (!Physics.Linecast(transform.position, player.position))
+                Debug.DrawLine(transform.position, player.position);
+                RaycastHit hit;
+                if (Physics.Linecast(transform.position, player.position, out hit))
                 {
-                    return true;
+                    if (hit.collider.gameObject.tag == "Player")
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -378,64 +390,4 @@ public class EnemyAI : MonoBehaviour
             npcState = EnemyState.Search;
         }
     }
-
-
-
-    //// General state machine variables
-    //private GameObject player;
-    //private Animator animator;
-    //private Ray ray;
-    //private RaycastHit hit;
-    //private float maxDistanceToCheck = 6.0f;
-    //private float currentDistance;
-    //private Vector3 checkDirection;
-
-    //public NavMeshAgent navMeshAgent;
-    //[SerializeField] private Transform[] waypoints;
-
-    //private int currentTarget=0; 
-    //private float distanceFromTarget;
-    //private void Awake()
-    //{
-    //    player = GameObject.FindWithTag("Player");
-    //    animator = gameObject.GetComponent<Animator>();
-    //    navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-    //    navMeshAgent.SetDestination(waypoints[currentTarget].position);
-    //}
-    //private void FixedUpdate()
-    //{
-    //    //First we check distance from the player 
-    //    currentDistance = Vector3.Distance(player.transform.position,transform.position);
-    //    //animator.SetFloat("distanceFromPlayer", currentDistance);
-    //    //Then we check for visibility
-    //    checkDirection = player.transform.position - transform.position;
-    //    ray = new Ray(transform.position, checkDirection);
-    //    if (Physics.Raycast(ray, out hit, maxDistanceToCheck))
-    //    {
-    //        if (hit.collider.gameObject == player)
-    //        {
-    //            animator.SetBool("isPlayerVisible", true);
-    //        }
-    //        else
-    //        {
-    //            animator.SetBool("isPlayerVisible", false);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        animator.SetBool("isPlayerVisible", false);
-    //    }
-    //    //Lastly, we get the distance to the next waypoint target
-    //    distanceFromTarget = Vector3.Distance(waypoints[currentTarget].position, transform.position);
-    //    //animator.SetFloat("distanceFromWaypoint", distanceFromTarget);
-    //}
-    //public void SetNextPoint()
-    //{
-    //    currentTarget++;
-    //    if (currentTarget > waypoints.Length - 1)
-    //    {
-    //        currentTarget = 0;
-    //    }
-    //    navMeshAgent.SetDestination(waypoints[currentTarget].position);
-    //}
 }

@@ -54,18 +54,23 @@ public class NPC : MonoBehaviour
 
     public void NPCSetActive(bool active)
     {
-        guiHandler.enemyHealthCanvas.SetActive(active);
 
-        if (active)
+        //zorgen dat hooguit één enemy current is.
+        if (active && gameHandler.currentEnemy==null)
         {
             guiHandler.enemyHealth.Setup(healthSystem);
             guiHandler.enemyHealth.Setup(healthSystem);
             gameHandler.currentEnemy = this;
+            guiHandler.enemyHealthCanvas.SetActive(true);
             guiHandler.ViewGUImessage(guiHandler.enemyNameText, worldObject.objectTitle, 99999);
         }
         else
         {
-            gameHandler.currentEnemy = null;
+            if (gameHandler.currentEnemy == this)
+            {
+                guiHandler.enemyHealthCanvas.SetActive(false);
+                gameHandler.currentEnemy = null;
+            }
         }
     }
 
