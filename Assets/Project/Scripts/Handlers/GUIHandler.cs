@@ -30,6 +30,7 @@ public class GUIHandler : MonoBehaviour
         guiMessage.SetText("");
         guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
         guiMessage2.SetText("");
+        enemyHealthCanvas.SetActive(false);
     }
 
     private void Update()

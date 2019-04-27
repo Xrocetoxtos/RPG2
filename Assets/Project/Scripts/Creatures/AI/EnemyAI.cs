@@ -16,14 +16,12 @@ public class EnemyAI : MonoBehaviour
     public float veryFar = 300;
 
     public Transform player;
+    public Transform lastSeenPlayer;
     [SerializeField] private NavMeshAgent navMeshAgent;
     private Vector3 direction;
     private float angleToPlayer;
     private float distanceToPlayer;
 
-    public bool npcLooksAtYou = false;
-    public bool npcFollowsYou = false;
-    public bool npcIsHostile = false;
     public bool npcIsArcher = false;
 
     public EnemyState npcState;
@@ -139,7 +137,6 @@ public class EnemyAI : MonoBehaviour
                 return;
             }
         }
-
         //hoofd van links naar rechts bewegen en zo zicht beïnvloeden
         MoveHead();
     }
@@ -204,7 +201,28 @@ public class EnemyAI : MonoBehaviour
         //achter de player aan gaan en stoppen op een locatie die bij je past, mele, ranged of friendly
         if (SeesPlayer())
         {
-
+            if (DecideMeleeArcher() == "melee")
+            {
+                if (distanceToPlayer > meleeRange)
+                {
+                    navMeshAgent.SetDestination(player.position);
+                }
+                else
+                {
+                    npcState = EnemyState.Attack;
+                }
+            }
+            else
+            {
+                if (distanceToPlayer > archeryRange)
+                {
+                    navMeshAgent.SetDestination(player.position);
+                }
+                else
+                {
+                    npcState = EnemyState.Attack;
+                }
+            }
         }
         else
         {
@@ -240,8 +258,15 @@ public class EnemyAI : MonoBehaviour
     private void NPCSearch()
     {
         ActiveEnemy();
-        // nog kijken hoe. nu even terug op patrouille
-        npcState = EnemyState.Patrol;
+        float distance = Vector3.Distance(lastSeenPlayer.position, transform.position);
+        float range = DecideAttackRange();
+
+        //zoeken naar laatste plek waar player gezien is.
+        if (distance > range)
+        {
+            navMeshAgent.SetDestination(lastSeenPlayer.position);
+        }
+
     }
 
 
@@ -333,8 +358,9 @@ public class EnemyAI : MonoBehaviour
 
     private void ActOnVision()
     {
-        Debug.Log("HALLOOOO");
+        lastSeenPlayer = player;
         npc.NPCSetActive(true);
+        npcState = DecideToAttack();
     }
 
     private void MoveHead()
@@ -362,10 +388,28 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private EnemyState DecideToAttack()
+    {
+        return EnemyState.Chase;
+    }
+
     private string DecideMeleeArcher()
     {
         //wordt "melee" als de melee-aanval kan plaatsvinden, archer als je kunt schieten, anders niks.
         return "melee";
+    }
+
+    private float DecideAttackRange()
+    {
+        switch (DecideMeleeArcher())
+        {
+            case "melee":
+                return meleeRange;
+            case "archer":
+                return archeryRange;
+            default:
+                return meleeRange;
+        }
     }
 
     private void MeleeAttack()
