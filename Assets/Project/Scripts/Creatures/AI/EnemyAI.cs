@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
     public float veryFar = 300;
 
     public Transform player;
-    public Transform lastSeenPlayer;
+    public Vector3 lastSeenPlayer;
     [SerializeField] private NavMeshAgent navMeshAgent;
     private Vector3 direction;
     private float angleToPlayer;
@@ -58,10 +58,12 @@ public class EnemyAI : MonoBehaviour
 
         patrolPosition = patrolArray[patrolIndex].position;
         LocatePlayer();
+        lastSeenPlayer = Vector3.up*10;
     }
 
     private void Update()
     {
+        Debug.Log("last: " + lastSeenPlayer + " / " + player.position + " /  " + npcState);
         npc.isInactive = false;
         switch (npcState)
         {
@@ -99,8 +101,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
-
+    
     // ====================================================================================
     //                                  States
     // ====================================================================================
@@ -108,7 +109,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCNothing()
     {
-        PassiveEnemy();
+        npc.NPCSetActive(false);
         if (nothingTimer < 0f)
         {
             npcState = lastState;
@@ -121,7 +122,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCIdle()
     {
-        PassiveEnemy();
+        npc.NPCSetActive(false);
         if (patrolArray.Length != 0)
         {
             //X-aantal seconden idle zijn en dan Patrol
@@ -143,7 +144,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCPatrol()
     {
-        PassiveEnemy();
+        npc.NPCSetActive(false);
         patrolPosition = patrolArray[patrolIndex].position;
         //ben ik er al?
         if (Vector3.Distance(transform.position, patrolPosition) < moveSpeed)
@@ -185,43 +186,28 @@ public class EnemyAI : MonoBehaviour
             //hoofd steeds van links naar rechts draaien zoals bij Commandos
             MoveHead();
         }
-
     }
 
     private void NPCBusy()
     {
-        PassiveEnemy();
+        npc.NPCSetActive(false);
         // een animatie dat ie iets doet
         // lage alertness
     }
 
     private void NPCChase()
     {
-        ActiveEnemy();
+        npc.NPCSetActive(true);
         //achter de player aan gaan en stoppen op een locatie die bij je past, mele, ranged of friendly
         if (SeesPlayer())
         {
-            if (DecideMeleeArcher() == "melee")
+            if(!PlayerInAttackRange())
             {
-                if (distanceToPlayer > meleeRange)
-                {
-                    navMeshAgent.SetDestination(player.position);
-                }
-                else
-                {
-                    npcState = EnemyState.Attack;
-                }
+                navMeshAgent.SetDestination(player.position);
             }
             else
             {
-                if (distanceToPlayer > archeryRange)
-                {
-                    navMeshAgent.SetDestination(player.position);
-                }
-                else
-                {
-                    npcState = EnemyState.Attack;
-                }
+                npcState = EnemyState.Attack;
             }
         }
         else
@@ -233,7 +219,7 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCAttack()
     {
-        ActiveEnemy();
+        npc.NPCSetActive(true);
         if (SeesPlayer())
         {
             switch (DecideMeleeArcher())
@@ -257,18 +243,23 @@ public class EnemyAI : MonoBehaviour
 
     private void NPCSearch()
     {
-        ActiveEnemy();
-        float distance = Vector3.Distance(lastSeenPlayer.position, transform.position);
-        float range = DecideAttackRange();
+        npc.NPCSetActive(true);
+        float distance = Vector3.Distance(lastSeenPlayer, transform.position);
 
-        //zoeken naar laatste plek waar player gezien is.
-        if (distance > range)
+        if (Vector3.Distance(transform.position, lastSeenPlayer) < moveSpeed)
         {
-            navMeshAgent.SetDestination(lastSeenPlayer.position);
+            //Vanaf laatste positie player rondkijken
+            LookAround();
+            SeesPlayer();
+        }
+        else
+        {
+            //lopen naar laatste plek waar player gezien is.
+            navMeshAgent.SetDestination(lastSeenPlayer);
+            MoveHead();
         }
 
     }
-
 
 
     // ====================================================================================
@@ -276,41 +267,15 @@ public class EnemyAI : MonoBehaviour
     // ====================================================================================
 
 
-
-    private void ActiveEnemy()
-    {
-        npc.NPCSetActive(true);
-    }
-
-    private void PassiveEnemy()
-    {
-        npc.NPCSetActive(false);
-    }
-
     private void NPCDies()
     {
         //enemy gegevens in de GUI opruimen
-        PassiveEnemy();
+        npc.NPCSetActive(false);
 
         //spullen neerleggen.
         //journal heroverwegen
         //opruimen van het gameobject en verwijzingen.
 
-    }
-
-    private void LocatePlayer()
-    {
-        direction = player.position - this.transform.position;
-        angleToPlayer = Vector3.Angle(direction, this.transform.forward);
-        distanceToPlayer = Vector3.Distance(player.position, this.transform.position);
-
-        // niks doen als je te ver weg bent
-        if (distanceToPlayer > veryFar)
-        {
-            lastState = npcState;
-            npcState = EnemyState.Nothing;
-            nothingTimer = nothingTimerStart;
-        }
     }
 
     private void LookForward()
@@ -328,37 +293,10 @@ public class EnemyAI : MonoBehaviour
             }
         }
         aiTimer += Time.deltaTime;
-
-    }
-
-    private bool SeesPlayer()
-    {
-        LocatePlayer();
-
-        // speler dichtbij
-        if (distanceToPlayer < targetRange)
-        {
-            // speler in line of sight
-            if (angleToPlayer < viewAngle)
-            {
-                //zicht niet geblokkeerd
-                Debug.DrawLine(transform.position, player.position);
-                RaycastHit hit;
-                if (Physics.Linecast(transform.position, player.position, out hit))
-                {
-                    if (hit.collider.gameObject.tag == "Player")
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     private void ActOnVision()
     {
-        lastSeenPlayer = player;
         npc.NPCSetActive(true);
         npcState = DecideToAttack();
     }
@@ -388,10 +326,112 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void LookAround()
+    {
+        float rotation = 0;
+        rotation += turnHeadSpeed * Time.deltaTime;
+        
+        transform.Rotate(Vector3.up, rotation);
+        lookTotal += rotation;
+
+        if (lookTotal > 360)
+        {
+            FindNearestPatrolPoint();
+            lastSeenPlayer = Vector3.up*10;
+        }
+    }
+
+
+    private void FindNearestPatrolPoint()
+    {
+        float nearest=0;
+        int nearestPoint=0;
+
+        for (int i = 0; i<patrolArray.Length; i++)
+        {
+            float distanceToPoint = Vector3.Distance(patrolArray[i].position, transform.position);
+            if (nearest > distanceToPoint || nearest==0)
+            {
+                nearest = distanceToPoint;
+                nearestPoint = i;
+            }
+        }
+
+        if (nearest > 0)
+        {
+            npcState = EnemyState.Patrol;
+            patrolIndex = nearestPoint;
+        }
+        else
+        {
+            npcState = EnemyState.Idle;
+        }
+    }
+
     private EnemyState DecideToAttack()
     {
         return EnemyState.Chase;
     }
+
+    private void MeleeAttack()
+    {
+
+    }
+
+    private void ArcherAttack()
+    {
+
+    }
+
+
+
+    // ====================================================================================
+    //                                Bepalingen
+    // ====================================================================================
+
+
+    private void LocatePlayer()
+    {
+        direction = player.position - this.transform.position;
+        angleToPlayer = Vector3.Angle(direction, this.transform.forward);
+        distanceToPlayer = Vector3.Distance(player.position, this.transform.position);
+
+        // niks doen als je te ver weg bent
+        if (distanceToPlayer > veryFar)
+        {
+            lastState = npcState;
+            npcState = EnemyState.Nothing;
+            nothingTimer = nothingTimerStart;
+        }
+    }
+
+
+    private bool SeesPlayer()
+    {
+        LocatePlayer();
+
+        // speler dichtbij
+        if (distanceToPlayer < targetRange)
+        {
+            // speler in line of sight
+            if (angleToPlayer < viewAngle)
+            {
+                //zicht niet geblokkeerd
+                Debug.DrawLine(transform.position, player.position);
+                RaycastHit hit;
+                if (Physics.Linecast(transform.position, player.position, out hit))
+                {
+                    if (hit.collider.gameObject.tag == "Player")
+                    {
+                        lastSeenPlayer = player.position;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
     private string DecideMeleeArcher()
     {
@@ -412,26 +452,22 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void MeleeAttack()
+    private bool PlayerInAttackRange()
     {
-
+        return distanceToPlayer < DecideAttackRange();
     }
 
-    private void ArcherAttack()
-    {
-
-    }
-
-    private void FindOutWayToAttack()
+    private EnemyState FindOutWayToAttack()
     {
         // waar is de player? moet ik lopen, zoeken, is hij weg?
         if (SeesPlayer())
         {
-            npcState = EnemyState.Chase;
+            return EnemyState.Chase;
         }
         else
         {
-            npcState = EnemyState.Search;
+            return EnemyState.Search;
         }
     }
+
 }
