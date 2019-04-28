@@ -6,7 +6,7 @@
     NPC
 }
 
-public enum EnemyState
+public enum NPCState
 {
     Nothing,
     Idle,
