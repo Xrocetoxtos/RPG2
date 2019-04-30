@@ -51,18 +51,39 @@ public class NpcAI : MonoBehaviour
 
         patrolPosition = patrolArray[patrolIndex].position;
         LocatePlayer();
+        npc.isInactive = false;
     }
 
 
     protected virtual void Update()
     {
-        if (npcState == NPCState.Nothing)
+        switch (npcState)
         {
-            alertness = 9999f;
-            npc.isInactive = true;
-            NPCNothing();
+            case NPCState.Nothing:
+                alertness = 9999f;
+                npc.isInactive = true;
+                NPCNothing();
+                break;
+            case NPCState.Idle:
+                alertness = .5f;
+                NPCIdle();
+                LookForward();
+                break;
+            case NPCState.Patrol:
+                alertness = .2f;
+                NPCPatrol();
+                LookForward();
+                break;
+            case NPCState.Busy:
+                NPCBusy();
+                LookForward();
+                break;
+            case NPCState.Flee:
+                NPCFlee();
+                break;
+            default:
+                break;
         }
-        
     }
 
     // ====================================================================================
@@ -72,7 +93,6 @@ public class NpcAI : MonoBehaviour
 
     protected virtual void NPCNothing()
     {
-        npc.NPCSetActive(false);
         if (nothingTimer < 0f)
         {
             npcState = lastState;
@@ -85,7 +105,6 @@ public class NpcAI : MonoBehaviour
 
     protected virtual void NPCIdle()
     {
-        npc.NPCSetActive(false);
         if (patrolArray.Length != 0)
         {
             //X-aantal seconden idle zijn en dan Patrol
@@ -153,9 +172,13 @@ public class NpcAI : MonoBehaviour
 
     protected virtual void NPCBusy()
     {
-        npc.NPCSetActive(false);
         // een animatie dat ie iets doet
         // lage alertness
+    }
+
+    protected virtual void NPCFlee()
+    {
+
     }
 
 
@@ -194,7 +217,7 @@ public class NpcAI : MonoBehaviour
 
     protected virtual void ActOnVision()
     {
-        npc.NPCSetActive(true);
+
     }
 
     protected void MoveHead()

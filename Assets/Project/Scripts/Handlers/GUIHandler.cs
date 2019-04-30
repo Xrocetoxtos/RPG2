@@ -21,6 +21,11 @@ public class GUIHandler : MonoBehaviour
 
     [SerializeField] private GameObject deepWaterMask;
 
+    [Header("Quests")]
+    public GameObject questWindow;
+    public TextMeshProUGUI questTitle;
+    public TextMeshProUGUI questDescription;
+
     private void Awake()
     {
         gameHandler = GetComponent<GameHandler>();
@@ -31,6 +36,11 @@ public class GUIHandler : MonoBehaviour
         guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
         guiMessage2.SetText("");
         enemyHealthCanvas.SetActive(false);
+
+        questWindow = GameObject.Find("QuestWindow");
+        questTitle = GameObject.Find("QuestTitle").GetComponent<TextMeshProUGUI>();
+        questTitle = GameObject.Find("QuestDescription").GetComponent<TextMeshProUGUI>();
+
     }
 
     private void Update()

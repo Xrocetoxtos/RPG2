@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 1951517057}
   - component: {fileID: 6937396158007014079}
   - component: {fileID: 452744428}
+  - component: {fileID: 6801845734392342746}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -391,7 +392,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -457,6 +458,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureCoins: 0
   creatureInventory: []
+--- !u!114 &6801845734392342746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898725910729533634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba02157e9aeb1d4c95c98b2f26e2bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questList: []
 --- !u!1 &2940010962198403109
 GameObject:
   m_ObjectHideFlags: 0

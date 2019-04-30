@@ -23,20 +23,6 @@ public class EnemyAI : NpcAI
         npc.isInactive = false;
         switch (npcState)
         {
-            case NPCState.Idle:
-                alertness = .5f;
-                NPCIdle();
-                LookForward();
-                break;
-            case NPCState.Patrol:
-                alertness = .2f;
-                NPCPatrol();
-                LookForward();
-                break;
-            case NPCState.Busy:
-                NPCBusy();
-                LookForward();
-                break;
             case NPCState.Chase:
                 NPCChase();
                 break;
@@ -61,21 +47,25 @@ public class EnemyAI : NpcAI
     protected override void NPCNothing()
     {
         base.NPCNothing();
+        npc.NPCSetActive(false);
     }
 
     protected override void NPCIdle()
     {
         base.NPCIdle();
+        npc.NPCSetActive(false);
     }
 
     protected override void NPCPatrol()
     {
         base.NPCPatrol();
+        npc.NPCSetActive(false);
     }
 
     protected override void NPCBusy()
     {
         base.NPCBusy();
+        npc.NPCSetActive(false);
     }
 
     private void NPCChase()
@@ -114,7 +104,7 @@ public class EnemyAI : NpcAI
                     ArcherAttack();
                     break;
                 default:
-                    FindOutWayToAttack();
+                    npcState = FindOutWayToAttack();
                     break;
             }
         }
@@ -159,6 +149,7 @@ public class EnemyAI : NpcAI
     protected override void ActOnVision()
     {
         base.ActOnVision();
+        npc.NPCSetActive(true);
         lastSeenPlayer = player.position;
         npcState = DecideToAttack();
     }

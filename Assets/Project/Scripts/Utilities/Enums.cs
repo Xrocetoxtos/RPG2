@@ -14,5 +14,31 @@ public enum NPCState
     Patrol,
     Chase,
     Attack,
-    Search
+    Search,
+    Flee
+}
+
+public enum QuestStatus
+{
+    Closed,
+    Open,
+    Pending,
+    Active,
+    Successful,
+    Failed,
+    Completed
+}
+
+public enum ObjectiveStatus
+{
+    Pending,
+    Completed,
+    Failed
+}
+
+public enum ObjectiveType
+{
+    Gather,
+    Defeat,
+    Move
 }
