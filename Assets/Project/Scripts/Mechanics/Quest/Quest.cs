@@ -9,5 +9,13 @@ public class Quest
     public string questTitle;
     public string questDescription;
 
+    // dialog-teksten voor iedere status van de quest.
+    public string questOpenDialog;
+    public string questPendingDialog;
+    public string questActiveDialog;
+    public string questSuccesfullDialog;
+    public string questFailedDialog;
+    public string questCompletedDialog;
+
 
 }

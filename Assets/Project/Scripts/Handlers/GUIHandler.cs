@@ -10,6 +10,7 @@ public class GUIHandler : MonoBehaviour
     public GameObject enemyHealthCanvas;
     public TextMeshProUGUI enemyNameText;
 
+    public GameObject mainPanel;
     public Image black;
     public TextMeshProUGUI guiMessage;
     public TextMeshProUGUI guiMessage2;
@@ -21,13 +22,17 @@ public class GUIHandler : MonoBehaviour
 
     [SerializeField] private GameObject deepWaterMask;
 
-    [Header("Quests")]
-    public GameObject questWindow;
-    public TextMeshProUGUI questTitle;
-    public TextMeshProUGUI questDescription;
+    [Header("Dialog")]
+    public GameObject dialogWindow;
+    public TextMeshProUGUI dialogPartner;
+    public TextMeshProUGUI dialogTitle;
+    public TextMeshProUGUI dialogDescription;
+    public TextMeshProUGUI dialogButton1;
+    public TextMeshProUGUI dialogButton2;
 
     private void Awake()
     {
+        mainPanel = GameObject.Find("MainPanel");
         gameHandler = GetComponent<GameHandler>();
         black = GameObject.Find("BlackBackground").GetComponent<Image>();
         deepWaterMask = GameObject.Find("DeepWaterMask");
@@ -36,11 +41,18 @@ public class GUIHandler : MonoBehaviour
         guiMessage2 = GameObject.Find("GUIMessage2").GetComponent<TextMeshProUGUI>();
         guiMessage2.SetText("");
         enemyHealthCanvas.SetActive(false);
+        InitDialogGUI();
+    }
 
-        questWindow = GameObject.Find("QuestWindow");
-        questTitle = GameObject.Find("QuestTitle").GetComponent<TextMeshProUGUI>();
-        questTitle = GameObject.Find("QuestDescription").GetComponent<TextMeshProUGUI>();
-
+    private void InitDialogGUI()
+    {
+        dialogWindow = GameObject.Find("DialogWindow");
+        dialogPartner = GameObject.Find("DialogPartner").GetComponent<TextMeshProUGUI>();
+        dialogTitle = GameObject.Find("DialogTitle").GetComponent<TextMeshProUGUI>();
+        dialogDescription = GameObject.Find("DialogDescription").GetComponent<TextMeshProUGUI>();
+        dialogButton1 = GameObject.Find("Button1Text").GetComponent<TextMeshProUGUI>();
+        dialogButton2 = GameObject.Find("Button2Text").GetComponent<TextMeshProUGUI>();
+        dialogWindow.SetActive(false);
     }
 
     private void Update()

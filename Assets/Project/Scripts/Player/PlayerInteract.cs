@@ -119,6 +119,16 @@ public class PlayerInteract : MonoBehaviour
     private void InteractWorldObject(WorldObject worldObject)
     {
         justInteracted = true;
+
+        QuestGiver questGiver = null;
+        questGiver = worldObject.gameObject.GetComponent<QuestGiver>();
+
+        if (questGiver !=null)
+        {
+            questGiver.InteractWithQuestGiver(worldObject.objectTitle);
+            worldObject.gameObject.GetComponent<NpcAI>().npcState = NPCState.Busy;
+        }
+
     }
 
     private void PickupWorldObject(WorldObject worldObject)
