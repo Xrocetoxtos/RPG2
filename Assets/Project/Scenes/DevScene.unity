@@ -946,6 +946,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86c51d30566b8246b5b4d6e92b966db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &328531670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 328531671}
+  - component: {fileID: 328531672}
+  m_Layer: 0
+  m_Name: QuestObjective
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &328531671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328531670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1993428846}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &328531672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328531670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d92f8d63d992a40aaf7482de165ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectiveType: 0
+  objectiveStatus: 0
+  objectToGather: {fileID: 131743238}
+  enemyToDefeat: {fileID: 0}
+  positionToMove: {fileID: 0}
 --- !u!1 &351672431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2784,6 +2832,71 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844041752315617253, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835941063687347641, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104746830841578156, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd779e4dfa84a774aacfc2dd50425f2e, type: 3}
 --- !u!1 &1609733203
@@ -3787,6 +3900,7 @@ Transform:
   m_Children:
   - {fileID: 598587763}
   - {fileID: 242884689}
+  - {fileID: 328531671}
   m_Father: {fileID: 351672432}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3968,7 +4082,7 @@ MonoBehaviour:
     questPendingDialog: Have you already made up your mind on whether you want to
       bring me a red ball or not?
     questActiveDialog: Have you found the red ball already?
-    questSuccessfullDialog: You successfullt brought me the red ball. Can I have it?
+    questSuccessfullDialog: You successfully brought me the red ball. Can I have it?
     questFailedDialog: You failed to bring me a red ball. Do I always have to do things
       myself?
     questCompletedDialog: Thank you for bringing me the red ball!
@@ -3977,7 +4091,8 @@ MonoBehaviour:
     questSuccessReply2: I think I'll keep it.
     questFailedReply: I'm sorry.
     questCompletedReply: You're welcome.
-    questObjectives: []
+    questObjectives:
+    - {fileID: 328531672}
 --- !u!1 &2026915660
 GameObject:
   m_ObjectHideFlags: 0

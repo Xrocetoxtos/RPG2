@@ -6,8 +6,15 @@ public class Inventory : MonoBehaviour
 {
     public int creatureCoins = 0;
     public List<WorldObject> creatureInventory = new List<WorldObject>();
+
+    Journal journal;
     // TODO - een verwijzing naar de display.
-    
+
+    private void Awake()
+    {
+        journal = GetComponent<Journal>();
+    }
+
     //Items
     public string AllItems()
     {
@@ -31,6 +38,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(WorldObject item)
     {
         creatureInventory.Add(item);
+        journal.CheckAllActiveObjectives();
         //display bijwerken
     }
 
@@ -39,6 +47,7 @@ public class Inventory : MonoBehaviour
         if(GetItem(item) !=null)
         {
             creatureInventory.Remove(item);
+            journal.CheckAllActiveObjectives();
             //display bijwerken
         }
     }

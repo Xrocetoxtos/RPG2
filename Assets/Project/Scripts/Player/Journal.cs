@@ -54,6 +54,31 @@ public class Journal : MonoBehaviour
         }
     }
 
+    public void CheckAllActiveObjectives()
+    {
+        foreach(Quest q in questList)
+        {
+            if (q.questStatus!=QuestStatus.Completed && q.questStatus != QuestStatus.Failed)
+            {
+                int objectives = q.questObjectives.Length;
+                int completedObjectives = 0;
+                foreach (QuestObjective o in q.questObjectives)
+                {
+                    o.CheckObjectiveCompleted();
+                    if(o.objectiveStatus == ObjectiveStatus.Completed)
+                    {
+                        completedObjectives++;
+                    }
+                }
+                if (objectives == completedObjectives)
+                {
+                    Debug.Log("Alle objectives voltooid");
+                    q.questStatus = QuestStatus.Successful;
+                }
+            }
+        }
+    }
+
     // Popularityhandling
     //===================
     public bool HasPopularity(NPC npc)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     private CharacterController charController;
+    private GameHandler gameHandler;
     private PlayerState playerState;
 
     [SerializeField] private string horizontalInputName, verticalInputName;
@@ -29,20 +30,24 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         charController = GetComponent<CharacterController>();
         playerState = GetComponent<PlayerState>();
     }
 
     private void Update()
     {
-        GetMoveInput();
-
-        if (horizInput != 0 || vertInput != 0)
+        if (!gameHandler.isPaused)
         {
-            SetMovementSpeed();
+            GetMoveInput();
+
+            if (horizInput != 0 || vertInput != 0)
+            {
+                SetMovementSpeed();
+            }
+            PlayerMovement();
+            JumpInput();
         }
-        PlayerMovement();
-        JumpInput();
     }
 
     private void GetMoveInput()

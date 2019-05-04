@@ -146,6 +146,7 @@ public class PlayerInteract : MonoBehaviour
     private void ExamineWorldObject(WorldObject worldObject)
     {
         justExamined = true;
+        gameHandler.isPaused = true;
         string textToShow = worldObject.objectDescription;
         textToShow += ": \n\n" + worldObject.gameObject.GetComponent<Interactable>().interactableDescription;
         dialogHandler.Talk(null, worldObject.objectTitle, textToShow, "Finish", "", FinishExamine, dialogHandler.DoNothing, null);
@@ -179,5 +180,6 @@ public class PlayerInteract : MonoBehaviour
     public void FinishExamine(Quest q, NpcAI n)
     {
         dialogHandler.ToggleDialog(false);
+        gameHandler.isPaused = false;
     }
 }

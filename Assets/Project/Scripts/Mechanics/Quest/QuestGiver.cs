@@ -79,6 +79,8 @@ public class QuestGiver : MonoBehaviour
 
     private void QuestSuccessful(string npc)
     {
+        //als het een gather-quest-objective is, kun je kiezen het object niet te geven.
+        //uitzoeken hoe dat te doen met meerdere objectives. als het kan wel dynamisch
         dialogHandler.Talk(npcAI, quest.questTitle, quest.questSuccessfullDialog, quest.questSuccessReply1, quest.questSuccessReply2, SuccessQuest1, SuccessQuest2, quest);
 
     }
@@ -103,6 +105,21 @@ public class QuestGiver : MonoBehaviour
         quest.questStatus = QuestStatus.Active;
         journal.AddQuest(quest, npcAI);
         CloseQuestWindow();
+
+        int ob = 0;
+        int oc = quest.questObjectives.Length;
+        foreach (QuestObjective qo in quest.questObjectives)
+        {
+            qo.CheckObjectiveCompleted();
+            if(qo.objectiveStatus == ObjectiveStatus.Completed)
+            {
+                ob++;
+            }
+        }
+        if(ob==oc)
+        {
+            quest.questStatus = QuestStatus.Successful;
+        }
     }
 
     public void DeclineQuest(Quest quest, NpcAI npcai)
@@ -113,7 +130,11 @@ public class QuestGiver : MonoBehaviour
 
     public void SuccessQuest1 (Quest quest, NpcAI npcai)
     {
-
+        // gather object verwijderen en naar npc
+        // beloning
+        // wegschrijven in journal
+        CloseQuestWindow();
+        // questgiver script weg
     }
 
     public void SuccessQuest2(Quest quest, NpcAI npcai)
