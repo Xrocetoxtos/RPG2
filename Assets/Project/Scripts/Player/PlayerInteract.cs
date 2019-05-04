@@ -5,6 +5,7 @@ public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private GameHandler gameHandler;
     private GUIHandler guiHandler;
+    private DialogHandler dialogHandler;
     Inventory inventory;
 
     [SerializeField] private float grabDistance;
@@ -26,6 +27,7 @@ public class PlayerInteract : MonoBehaviour
         cam = transform.Find("PlayerCamera").gameObject.GetComponent<Camera>();
         gameHandler = gh.GetComponent<GameHandler>();
         guiHandler = gh.GetComponent<GUIHandler>();
+        dialogHandler = gh.GetComponent<DialogHandler>();
         crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
         crosshair.sprite = crosshairImage[0];
         inventory = GetComponent<Inventory>();
@@ -125,8 +127,10 @@ public class PlayerInteract : MonoBehaviour
 
         if (questGiver !=null)
         {
-            questGiver.InteractWithQuestGiver(worldObject.objectTitle);
-            worldObject.gameObject.GetComponent<NpcAI>().npcState = NPCState.Busy;
+            NpcAI npcai = worldObject.gameObject.GetComponent<NpcAI>();
+            npcai.lastState = npcai.npcState;
+            npcai.npcState = NPCState.Busy;
+            questGiver.InteractWithQuestGiver(worldObject.objectTitle,npcai);
         }
 
     }
@@ -142,6 +146,9 @@ public class PlayerInteract : MonoBehaviour
     private void ExamineWorldObject(WorldObject worldObject)
     {
         justExamined = true;
+        string textToShow = worldObject.objectDescription;
+        textToShow += ": \n\n" + worldObject.gameObject.GetComponent<Interactable>().interactableDescription;
+        dialogHandler.Talk(null, worldObject.objectTitle, textToShow, "Finish", "", FinishExamine, dialogHandler.DoNothing, null);
     }
 
     private void OpenCloseDoor(WorldObject worldObject)
@@ -167,5 +174,10 @@ public class PlayerInteract : MonoBehaviour
         else if (distance < 16) return 2;
         else if (distance < 20) return 1;
         return 0;
+    }
+
+    public void FinishExamine(Quest q, NpcAI n)
+    {
+        dialogHandler.ToggleDialog(false);
     }
 }

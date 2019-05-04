@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class QuestGiver : MonoBehaviour
 {
-    public Quest quest;
+    public NpcAI npcAI;
     public Journal journal;
+    public Quest quest;
+
     private GUIHandler guiHandler;
     private DialogHandler dialogHandler;
 
@@ -14,71 +16,124 @@ public class QuestGiver : MonoBehaviour
         journal = GameObject.Find("Player").GetComponent<Journal>();
         guiHandler = GameObject.Find("GameHandler").GetComponent<GUIHandler>();
         dialogHandler = GameObject.Find("GameHandler").GetComponent<DialogHandler>();
+        npcAI = GetComponent<NpcAI>();
     }
 
-    public void InteractWithQuestGiver(string npc)
+    public void InteractWithQuestGiver(string npc,NpcAI ai)
     {
+        npcAI = ai;
         switch (quest.questStatus)
         {
             case QuestStatus.Closed:
-                //als de quest closed is, niks tonen. de quest is nog niet beschikbaar.
+                //als de quest closed is, niks tonen. de quest is niet beschikbaar.
                 break;
             case QuestStatus.Open:
                 QuestOpen(npc);
                 break;
             case QuestStatus.Pending:
-                QuestPending();
+                QuestPending(npc);
                 break;
             case QuestStatus.Active:
-                QuestActive();
+                QuestActive(npc);
                 break;
             case QuestStatus.Successful:
-                QuestSuccessful();
+                QuestSuccessful(npc);
                 break;
             case QuestStatus.Failed:
-                QuestFailed();
+                QuestFailed(npc);
                 break;
             case QuestStatus.Completed:
-                QuestCompleted();
+                QuestCompleted(npc);
                 break;
         }
     }
 
     public void CloseQuestWindow()
     {
-        guiHandler.dialogWindow.SetActive(false);
+        dialogHandler.ToggleDialog(false);
+        npcAI.npcState = npcAI.lastState;
+        //Time.timeScale = 1;
     }
 
+    // ==================================================================
+    //                            Statussen
     // ==================================================================
 
     private void QuestOpen(string npc)
     {
         dialogHandler.ToggleDialog(true);
-        dialogHandler.Talk(npc, quest.questTitle, quest.questOpenDialog, "Accept", "Decline");
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questOpenDialog, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
+        quest.questStatus = QuestStatus.Pending;
     }
 
-    private void QuestPending()
+    private void QuestPending(string npc)
+    {
+        dialogHandler.ToggleDialog(true);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questPendingDialog, "Accept", "Decline", AcceptQuest, DeclineQuest, quest);
+    }
+
+    private void QuestActive(string npc)
+    {
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questActiveDialog, quest.questActiveReply, "", OkButton, dialogHandler.DoNothing, quest);
+    }
+
+    private void QuestSuccessful(string npc)
+    {
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questSuccessfullDialog, quest.questSuccessReply1, quest.questSuccessReply2, SuccessQuest1, SuccessQuest2, quest);
+
+    }
+
+    private void QuestFailed(string npc)
+    {
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questFailedDialog, quest.questFailedReply, "", FailedQuest, dialogHandler.DoNothing, quest);
+    }
+
+    private void QuestCompleted(string npc)
+    {
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest);
+    }
+
+    // ==================================================================
+    //                           Buttonfuncties
+    // ==================================================================
+
+
+    public void AcceptQuest(Quest quest, NpcAI npcai)
+    {
+        quest.questStatus = QuestStatus.Active;
+        journal.AddQuest(quest, npcAI);
+        CloseQuestWindow();
+    }
+
+    public void DeclineQuest(Quest quest, NpcAI npcai)
+    {
+        quest.questStatus = QuestStatus.Open;
+        CloseQuestWindow();
+    }
+
+    public void SuccessQuest1 (Quest quest, NpcAI npcai)
     {
 
     }
 
-    private void QuestActive()
+    public void SuccessQuest2(Quest quest, NpcAI npcai)
     {
 
     }
 
-    private void QuestSuccessful()
+    public void FailedQuest(Quest quest, NpcAI npcai)
     {
 
     }
 
-    private void QuestFailed()
+    public void CompletedQuest(Quest quest, NpcAI npcai)
     {
 
     }
 
-    private void QuestCompleted()
+    public void OkButton (Quest quest, NpcAI npcai)
     {
-
+        CloseQuestWindow();
     }
+
 }

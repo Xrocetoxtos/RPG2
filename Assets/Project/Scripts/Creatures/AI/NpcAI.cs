@@ -20,10 +20,11 @@ public class NpcAI : MonoBehaviour
     [SerializeField] protected NavMeshAgent navMeshAgent;
     protected Vector3 direction;
     protected float angleToPlayer;
-    protected float distanceToPlayer;
+    public float distanceToPlayer;
+    public float interactDistance;      // voor dialogs voor het venster verdwijnt.
 
     public NPCState npcState;
-    protected NPCState lastState;
+    public NPCState lastState;
 
     [SerializeField] protected Transform[] patrolArray;
     protected Vector3 patrolPosition;
@@ -75,6 +76,7 @@ public class NpcAI : MonoBehaviour
                 LookForward();
                 break;
             case NPCState.Busy:
+                alertness = 1f;
                 NPCBusy();
                 LookForward();
                 break;
@@ -172,8 +174,8 @@ public class NpcAI : MonoBehaviour
 
     protected virtual void NPCBusy()
     {
-        // een animatie dat ie iets doet
-        // lage alertness
+        navMeshAgent.SetDestination(transform.position);
+
     }
 
     protected virtual void NPCFlee()

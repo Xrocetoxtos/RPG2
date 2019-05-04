@@ -51,27 +51,6 @@ public class GameHandler : MonoBehaviour
         {
             Paused();
         }
-        TestHealthBar();
-    }
-
-    private void TestHealthBar()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            playerState.healthSystem.DamageHealth(5);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            playerState.healthSystem.HealHealth(5);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            playerState.healthSystem.DamageEnergy(5);
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            playerState.healthSystem.HealEnergy(5);
-        }
     }
 
     // Game States

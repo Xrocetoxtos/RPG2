@@ -6,8 +6,14 @@ public class Journal : MonoBehaviour
 {
     [SerializeField] private List<Quest> questList = new List<Quest>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
+    [SerializeField] private List<string> journalEntries = new List<string>();
 
     // vergelijkbare structuur met andere dingen (interacties met mensen, hints, etc)
+
+    public void InsertEntry(string entry)
+    {
+        journalEntries.Add(entry);
+    }
 
     //Quest handling
     //==============
@@ -25,11 +31,18 @@ public class Journal : MonoBehaviour
         return null;
     }
 
-    public void AddQuest(Quest quest)
+    public void AddQuest(Quest quest, NpcAI npcAI=null)
     {
         if (!HasQuest(quest))
         {
             questList.Add(quest);
+            string entry = "I embarked upon a new quest ";
+            if(npcAI!=null)
+            {
+                entry += "after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle + ". ";
+            }
+            entry += quest.questDescription;
+            InsertEntry(entry);
         }
     }
 
