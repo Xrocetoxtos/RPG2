@@ -6,6 +6,10 @@ public class QuestGiver : MonoBehaviour
 {
     public NpcAI npcAI;
     public Journal journal;
+
+    public Inventory playerInventory;
+    public Inventory giverInventory;
+
     public Quest quest;
 
     private GUIHandler guiHandler;
@@ -13,10 +17,13 @@ public class QuestGiver : MonoBehaviour
 
     private void Awake()
     {
-        journal = GameObject.Find("Player").GetComponent<Journal>();
+        GameObject player = GameObject.Find("Player");
+        journal = player.GetComponent<Journal>();
+        playerInventory = player.GetComponent<Inventory>();
         guiHandler = GameObject.Find("GameHandler").GetComponent<GUIHandler>();
         dialogHandler = GameObject.Find("GameHandler").GetComponent<DialogHandler>();
         npcAI = GetComponent<NpcAI>();
+        giverInventory = GetComponent<Inventory>();
     }
 
     public void InteractWithQuestGiver(string npc,NpcAI ai)
@@ -52,7 +59,6 @@ public class QuestGiver : MonoBehaviour
     {
         dialogHandler.ToggleDialog(false);
         npcAI.npcState = npcAI.lastState;
-        //Time.timeScale = 1;
     }
 
     // ==================================================================
@@ -62,7 +68,8 @@ public class QuestGiver : MonoBehaviour
     private void QuestOpen(string npc)
     {
         dialogHandler.ToggleDialog(true);
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questOpenDialog, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
+        string talk = quest.questOpenDialog + " I'll give you " +  quest.NameRewards() + " in return.";
+        dialogHandler.Talk(npcAI, quest.questTitle, talk, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
         quest.questStatus = QuestStatus.Pending;
     }
 
@@ -130,16 +137,56 @@ public class QuestGiver : MonoBehaviour
 
     public void SuccessQuest1 (Quest quest, NpcAI npcai)
     {
-        // gather object verwijderen en naar npc
-        // beloning
-        // wegschrijven in journal
+        //journal bijwerken
+        journal.InsertQuestCompleted(quest, npcai);
+        //journal.AddPopularityDictionary(quest.popularityWithNPCCompleted);
+
+        if (giverInventory.EnoughInventory(quest.rewardCoins, quest.rewardObjects))
+        {
+            quest.questStatus = QuestStatus.Completed;
+
+            //beloning
+            giverInventory.GiveCoins(playerInventory,quest.rewardCoins);
+            foreach (WorldObject item in quest.rewardObjects)
+            {
+                giverInventory.GiveItem(playerInventory, item);
+            }
+
+            // gather object verwijderen en naar npc
+            foreach (QuestObjective obj in quest.questObjectives)
+            {
+                playerInventory.GiveItem(giverInventory, obj.objectToGather);
+            }
+            CloseQuestWindow();
+        }
+        else
+        {
+            //questgiver heeft niet alles als reward
+            string npcTalk = "I'm sorry. It seems I don't have everything I promised you. While I promised you " + quest.NameRewards();
+            npcTalk += ", I can only deliver " + quest.NameWhatYouGot(giverInventory) + ". Will you accept that as payment for your trouble?";
+            dialogHandler.Talk(npcAI, quest.questTitle, npcTalk, "That'll do.", "No way!", SuccessQuest1a, SuccessQuest1b, quest);
+        }
+    }
+
+    public void SuccessQuest1a(Quest quest, NpcAI npcai)
+    {
+        quest.GiveWhatYouGot(giverInventory, playerInventory);
+            foreach (QuestObjective obj in quest.questObjectives)
+            {
+                playerInventory.GiveItem(giverInventory, obj.objectToGather);
+            }
         CloseQuestWindow();
-        // questgiver script weg
+    }
+
+    public void SuccessQuest1b(Quest quest, NpcAI npcai)
+    {
+        CloseQuestWindow();
     }
 
     public void SuccessQuest2(Quest quest, NpcAI npcai)
     {
-
+        CloseQuestWindow();
+        quest.questStatus = QuestStatus.Failed;
     }
 
     public void FailedQuest(Quest quest, NpcAI npcai)
@@ -149,7 +196,7 @@ public class QuestGiver : MonoBehaviour
 
     public void CompletedQuest(Quest quest, NpcAI npcai)
     {
-
+        CloseQuestWindow();
     }
 
     public void OkButton (Quest quest, NpcAI npcai)

@@ -7,12 +7,17 @@ public class Inventory : MonoBehaviour
     public int creatureCoins = 0;
     public List<WorldObject> creatureInventory = new List<WorldObject>();
 
-    Journal journal;
+    private Journal journal;
+    public bool isPlayer = false;
     // TODO - een verwijzing naar de display.
 
     private void Awake()
     {
         journal = GetComponent<Journal>();
+        if (journal !=null)
+        {
+            isPlayer = true;
+        }
     }
 
     //Items
@@ -38,8 +43,11 @@ public class Inventory : MonoBehaviour
     public void AddItem(WorldObject item)
     {
         creatureInventory.Add(item);
-        journal.CheckAllActiveObjectives();
-        //display bijwerken
+        if (isPlayer)
+        {
+            journal.CheckAllActiveObjectives();
+            //display bijwerken
+        }
     }
 
     public void RemoveItem(WorldObject item)
@@ -47,8 +55,11 @@ public class Inventory : MonoBehaviour
         if(GetItem(item) !=null)
         {
             creatureInventory.Remove(item);
-            journal.CheckAllActiveObjectives();
-            //display bijwerken
+            if (isPlayer)
+            {
+                journal.CheckAllActiveObjectives();
+                //display bijwerken
+            }
         }
     }
 
@@ -80,6 +91,24 @@ public class Inventory : MonoBehaviour
 
     //Trade
     //inventory die je hier passt, dat is de inventory van degene waar je mee handelt.
+    public void GiveItem(Inventory inventory, WorldObject item)
+    {
+        if(GetItem(item)!=null)
+        {
+            inventory.AddItem(item);
+            RemoveItem(item);
+        }
+    }
+
+    public void GiveCoins(Inventory inventory, int amount)
+    {
+        if(EnoughCoins(amount))
+        {
+            inventory.AddCoins(amount);
+            RemoveCoins(amount);
+        }
+    }
+
     public void BuyObject(Inventory inventory, WorldObject item, int amount)
     {
         if (inventory.GetItem(item) != null && EnoughCoins(amount))
@@ -96,5 +125,21 @@ public class Inventory : MonoBehaviour
             RemoveItem(item);
             AddCoins(amount);
         }
+    }
+
+    public bool EnoughInventory(int amount, WorldObject[] worldObjects)
+    {
+        foreach (WorldObject item in worldObjects)
+        {
+            if (GetItem(item)==null)
+            {
+                return false;
+            }
+        }
+        if (!EnoughCoins(amount))
+        {
+            return false;
+        }
+        return true;
     }
 }

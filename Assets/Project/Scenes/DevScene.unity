@@ -1254,7 +1254,7 @@ GameObject:
   - component: {fileID: 560924550}
   - component: {fileID: 560924554}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Letter
   m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3754,6 +3754,8 @@ Transform:
   - {fileID: 351672432}
   - {fileID: 2033315732}
   - {fileID: 560924549}
+  - {fileID: 2100843201}
+  - {fileID: 2047728049}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3767,6 +3769,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bf77f4e24340584ebfcaf0a21485aa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1910138434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6195037993889620466, guid: 7b719df69662f33428f6bc9540bff6f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6195037994221409680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29b296af125d324196d41e6b0fa0525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1960401022
@@ -3880,6 +3894,7 @@ GameObject:
   - component: {fileID: 1993428852}
   - component: {fileID: 1993428853}
   - component: {fileID: 1993428854}
+  - component: {fileID: 1993428855}
   m_Layer: 0
   m_Name: FriendlyGuy
   m_TagString: InteractObject
@@ -4073,6 +4088,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcAI: {fileID: 0}
   journal: {fileID: 0}
+  playerInventory: {fileID: 0}
+  giverInventory: {fileID: 0}
   quest:
     questStatus: 1
     questID: 0
@@ -4093,6 +4110,34 @@ MonoBehaviour:
     questCompletedReply: You're welcome.
     questObjectives:
     - {fileID: 328531672}
+    NPCCompleted:
+    - {fileID: 1993428851}
+    - {fileID: 1910138434}
+    intCompleted: 0a000000f6ffffff
+    NPCFailed:
+    - {fileID: 1910138434}
+    intFailed: 0a000000
+    rewardObjects:
+    - {fileID: 2047728050}
+    - {fileID: 2100843202}
+    - {fileID: 560924550}
+    rewardCoins: 10
+--- !u!114 &1993428855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993428845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db94002eed69d2d48906ec03b64cd62d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creatureCoins: 4
+  creatureInventory:
+  - {fileID: 2100843202}
+  isPlayer: 0
 --- !u!1 &2026915660
 GameObject:
   m_ObjectHideFlags: 0
@@ -4273,6 +4318,198 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &2047728048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2047728049}
+  - component: {fileID: 2047728051}
+  - component: {fileID: 2047728050}
+  m_Layer: 0
+  m_Name: WindZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2047728049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047728048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.169, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1900180538}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047728050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047728048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecddb7b24aa6be94da71ff5a69a70ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectNumber: 0
+  objectTitle: WindZone
+  objectDescription: 
+  objectType: 0
+  objectSprite: {fileID: 0}
+  objectScene: 0
+  objectTransform: {fileID: 0}
+  objectIsThere: 1
+  doorObject: {fileID: 0}
+  npcObject: {fileID: 0}
+  foodObject: {fileID: 0}
+  artifactObject: {fileID: 0}
+  weaponObject: {fileID: 0}
+  attireObject: {fileID: 0}
+  interactableObject: {fileID: 0}
+--- !u!182 &2047728051
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047728048}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 1
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
+--- !u!1 &2100843200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2100843201}
+  - component: {fileID: 2100843205}
+  - component: {fileID: 2100843204}
+  - component: {fileID: 2100843203}
+  - component: {fileID: 2100843202}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2100843201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100843200}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.834, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1900180538}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2100843202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100843200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecddb7b24aa6be94da71ff5a69a70ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectNumber: 0
+  objectTitle: Cube
+  objectDescription: 
+  objectType: 0
+  objectSprite: {fileID: 0}
+  objectScene: 0
+  objectTransform: {fileID: 0}
+  objectIsThere: 1
+  doorObject: {fileID: 0}
+  npcObject: {fileID: 0}
+  foodObject: {fileID: 0}
+  artifactObject: {fileID: 0}
+  weaponObject: {fileID: 0}
+  attireObject: {fileID: 0}
+  interactableObject: {fileID: 0}
+--- !u!65 &2100843203
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100843200}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2100843204
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100843200}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2100843205
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100843200}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1898725910979815282
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,12 +7,47 @@ public class Journal : MonoBehaviour
     [SerializeField] private List<Quest> questList = new List<Quest>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
     [SerializeField] private List<string> journalEntries = new List<string>();
-
+    
     // vergelijkbare structuur met andere dingen (interacties met mensen, hints, etc)
 
+    //Entries invoeren
     public void InsertEntry(string entry)
     {
         journalEntries.Add(entry);
+    }
+
+    public void InsertQuestStarted(Quest quest, NpcAI npcAI = null)
+    {
+        string entry = "I embarked upon a new quest";
+        if (npcAI != null)
+        {
+            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle ;
+        }
+        entry += ". ";
+        entry += quest.questDescription;
+        InsertEntry(entry);
+    }
+
+    public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
+    {
+        //popularityWithNPC bijwerken
+        AddPopularityDictionary(quest.popularityWithNPCCompleted);
+
+        //entry quest schrijven
+        string entry = "I finished the quest I got";
+        if (npcAI != null)
+        {
+            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
+        }
+        entry += ". ";
+        entry += quest.questDescription;
+        InsertEntry(entry);
+    }
+
+    public void InsertQuestFailed(Quest quest, NpcAI npcAI = null)
+    {
+        //entry quest schrijven
+        //entry popularity schrijven
     }
 
     //Quest handling
@@ -35,14 +70,9 @@ public class Journal : MonoBehaviour
     {
         if (!HasQuest(quest))
         {
+            quest.Init();
             questList.Add(quest);
-            string entry = "I embarked upon a new quest ";
-            if(npcAI!=null)
-            {
-                entry += "after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle + ". ";
-            }
-            entry += quest.questDescription;
-            InsertEntry(entry);
+            InsertQuestStarted(quest, npcAI);
         }
     }
 
@@ -72,7 +102,6 @@ public class Journal : MonoBehaviour
                 }
                 if (objectives == completedObjectives)
                 {
-                    Debug.Log("Alle objectives voltooid");
                     q.questStatus = QuestStatus.Successful;
                 }
             }
@@ -93,14 +122,27 @@ public class Journal : MonoBehaviour
 
     public void AddPopularity(NPC npc, int pop)
     {
+        string entry;
         //negatieve waarden zijn hier ook.
         if (!HasPopularity(npc))
         {
+            entry = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has been established at " + pop + ".";
             popularityWithNPC.Add(npc, pop);
         }
         else
         {
+            entry = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has changed from " + popularityWithNPC[npc];
             popularityWithNPC[npc] += pop;
+            entry += " to " + popularityWithNPC[npc] + ".";
+        }
+        InsertEntry(entry);
+    }
+
+    public void AddPopularityDictionary(Dictionary<NPC, int> dict)
+    {
+        foreach (KeyValuePair<NPC, int> npc in dict)
+        {
+            AddPopularity(npc.Key, npc.Value);
         }
     }
 }

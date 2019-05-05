@@ -28,6 +28,28 @@ public class Quest
 
     [Header("Objectives")]
     public QuestObjective[] questObjectives;
+    public Dictionary<NPC, int> popularityWithNPCCompleted = new Dictionary<NPC, int>();
+    public Dictionary<NPC, int> popularityWithNPCFailed = new Dictionary<NPC, int>();
+    public NPC[] NPCCompleted;
+    public int[] intCompleted;
+    public NPC[] NPCFailed;
+    public int[] intFailed;
+
+    [Header("Reward")]
+    public WorldObject[] rewardObjects;
+    public int rewardCoins;
+
+    public void Init()
+    {
+        for (int i=0;i<NPCCompleted.Length;i++)
+        {
+            popularityWithNPCCompleted.Add(NPCCompleted[i], intCompleted[i]);
+        }
+        for (int i = 0; i < NPCFailed.Length; i++)
+        {
+            popularityWithNPCFailed.Add(NPCFailed[i], intFailed[i]);
+        }
+    }
 
     public bool QuestCompleted()
     {
@@ -45,4 +67,102 @@ public class Quest
         }
         return false;
     }
+
+    public string NameRewards()
+    {
+        string stuff = "";
+        int counter = 0;
+        bool objects = false;
+        foreach (WorldObject obj in rewardObjects)
+        {
+            objects = true;
+            counter++;
+            if (counter == rewardObjects.Length && counter >1)
+            {
+                stuff += "and ";
+            }
+            stuff += obj.objectTitle;
+            if(counter<rewardObjects.Length)
+            {
+                stuff += ", ";
+            }
+        }
+        if (rewardCoins>0)
+        {
+            if (objects)
+            {
+                stuff += " and ";
+            }
+            stuff += rewardCoins.ToString() + " coins";
+        }
+        return stuff;
+    }
+
+    public string NameWhatYouGot(Inventory inventory)
+    {
+        string stuff = "";
+        int counter = 0;
+        bool objects = false;
+        List<WorldObject> inventoryObjects = new List<WorldObject>();
+        foreach (WorldObject obj in rewardObjects)
+        {
+            if (inventory.GetItem(obj) != null)
+            {
+                inventoryObjects.Add(obj);
+            }
+        }
+
+        foreach (WorldObject obj in inventoryObjects)
+        {
+            objects = true;
+            counter++;
+            if (counter == inventoryObjects.Count && counter > 1)
+            {
+                stuff += "and ";
+            }
+            stuff += obj.objectTitle;
+            if (counter < inventoryObjects.Count)
+            {
+                stuff += ", ";
+            }
+        }
+        if (inventory.creatureCoins > 0)
+        {
+            if (objects)
+            {
+                stuff += " and ";
+            }
+            if (rewardCoins < inventory.creatureCoins)
+            {
+                stuff += rewardCoins.ToString();
+            }
+            else
+            {
+                stuff += inventory.creatureCoins.ToString();
+            }
+            stuff += " coins";
+        }
+        return stuff;
+    }
+
+    public void GiveWhatYouGot(Inventory giver, Inventory receiver)
+    {
+        foreach (WorldObject obj in rewardObjects)
+        {
+            if (giver.GetItem(obj) != null)
+            {
+                giver.GiveItem(receiver, obj);
+            }
+        }
+        if (giver.creatureCoins < rewardCoins)
+        {
+            giver.GiveCoins(receiver, giver.creatureCoins);
+        }
+        else
+        {
+            giver.GiveCoins(receiver, rewardCoins);
+        }
+    }
+
+
 }
