@@ -103,6 +103,7 @@ public class Quest
         string stuff = "";
         int counter = 0;
         bool objects = false;
+        int coins = 0;
         List<WorldObject> inventoryObjects = new List<WorldObject>();
         foreach (WorldObject obj in rewardObjects)
         {
@@ -130,17 +131,21 @@ public class Quest
         {
             if (objects)
             {
-                stuff += " and ";
+                stuff += " and an amount of ";
             }
             if (rewardCoins < inventory.creatureCoins)
             {
-                stuff += rewardCoins.ToString();
+                coins = rewardCoins;
             }
             else
             {
-                stuff += inventory.creatureCoins.ToString();
+                coins= inventory.creatureCoins;
             }
-            stuff += " coins";
+            stuff += coins.ToString() + " coin";
+            if(coins!=1)
+            {
+                stuff += "s";
+            }
         }
         return stuff;
     }
