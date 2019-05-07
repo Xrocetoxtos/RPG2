@@ -44,7 +44,14 @@ public class QuestGiver : MonoBehaviour
                 QuestActive(npc);
                 break;
             case QuestStatus.Successful:
-                QuestSuccessful(npc);
+                if (quest.returnToGiver)
+                {
+                    QuestSuccessful(npc);
+                }
+                else
+                {
+                    QuestCompleted(npc);
+                }
                 break;
             case QuestStatus.Failed:
                 QuestFailed(npc);
@@ -67,8 +74,18 @@ public class QuestGiver : MonoBehaviour
 
     private void QuestOpen(string npc)
     {
+        string talk = quest.questOpenDialog;
         dialogHandler.ToggleDialog(true);
-        string talk = quest.questOpenDialog + " I'll give you " +  quest.NameRewards() + " in return.";
+        if (npcAI != null)
+        {
+            talk += " I'll give you ";
+        }
+        else
+        {
+            talk += " You'll be rewarded with ";
+        }
+            
+        talk+=  quest.NameRewards() + " in return.";
         dialogHandler.Talk(npcAI, quest.questTitle, talk, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
         quest.questStatus = QuestStatus.Pending;
     }
@@ -139,7 +156,6 @@ public class QuestGiver : MonoBehaviour
     {
         //journal bijwerken
         journal.InsertQuestCompleted(quest, npcai);
-        //journal.AddPopularityDictionary(quest.popularityWithNPCCompleted);
 
         if (giverInventory.EnoughInventory(quest.rewardCoins, quest.rewardObjects))
         {
@@ -196,6 +212,17 @@ public class QuestGiver : MonoBehaviour
 
     public void CompletedQuest(Quest quest, NpcAI npcai)
     {
+        //nog een opvolgquest als die bestaat
+        if (quest.nextQuest.Length >0)
+        {
+            foreach (Quest q in quest.nextQuest)
+            {
+                if (q.questStatus == QuestStatus.Closed)
+                {
+                    q.questStatus = QuestStatus.Open;
+                }
+            }
+        }
         CloseQuestWindow();
     }
 
