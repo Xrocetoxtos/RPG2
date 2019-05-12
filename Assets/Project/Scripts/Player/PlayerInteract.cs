@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerInteract : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
     [SerializeField] private GameHandler gameHandler;
     private GUIHandler guiHandler;
     private DialogHandler dialogHandler;
@@ -23,6 +24,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Awake()
     {
+        player = this.gameObject;
         GameObject gh = GameObject.Find("GameHandler");
         cam = transform.Find("PlayerCamera").gameObject.GetComponent<Camera>();
         gameHandler = gh.GetComponent<GameHandler>();
@@ -44,9 +46,10 @@ public class PlayerInteract : MonoBehaviour
         // een raycast vanuit de camera vooruit schieten en dan seeDistance ver
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
+        player.layer = 2;
         if (Physics.Raycast(ray, out hit, seeDistance))
         {
+            player.layer = 0;
             crosshair.sprite = crosshairImage[SetCrosshairState(hit.distance)];
                 
             // als dat iets raakt, check of het Worldobject is
@@ -56,6 +59,7 @@ public class PlayerInteract : MonoBehaviour
                 GUIShowObject(worldObject, hit);
             }
         }
+        player.layer = 0;
     }
 
     private void GUIShowObject(WorldObject worldObject, RaycastHit hit)

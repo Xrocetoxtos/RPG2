@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class GameHandler : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameHandler : MonoBehaviour
     public NPC currentEnemy = null;
 
     public bool isPaused = false;
+
+    public List<Quest> allQuests = new List<Quest>();
 
     private void Awake()
     {
@@ -79,5 +82,18 @@ public class GameHandler : MonoBehaviour
     public void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    //Quests
+    public Quest GetQuestByID(int id)
+    {
+        foreach (Quest quest in allQuests)
+        {
+            if (quest.questID == id)
+            {
+                return quest;
+            }
+        }
+        return null;
     }
 }

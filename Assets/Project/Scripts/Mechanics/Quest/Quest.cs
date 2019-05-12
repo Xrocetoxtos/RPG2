@@ -36,10 +36,10 @@ public class Quest
     public int[] intFailed;
 
     [Header("Reward")]
-    public bool returnToGiver = true;           // als dit false is, is successful meteen completed
+    public bool returnToGiver = true;                   // als dit false is, is successful meteen completed
     public WorldObject[] rewardObjects;
     public int rewardCoins;
-    public Quest[] nextQuest = null;            //quest die open gaat als je deze af hebt
+    public List<int> nextQuest = new List<int>();      // allemaal list id's
 
     public void Init()
     {

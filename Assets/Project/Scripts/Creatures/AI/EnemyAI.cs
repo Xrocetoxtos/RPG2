@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 public class EnemyAI : NpcAI
 {
-    public Vector3 lastSeenPlayer;
     public bool npcIsArcher = false;
 
     [SerializeField] private int walkTowardsRange = 20;

@@ -25,6 +25,7 @@ public class NpcAI : MonoBehaviour
 
     public NPCState npcState;
     public NPCState lastState;
+    public Vector3 lastSeenPlayer;
 
     [SerializeField] protected Transform[] patrolArray;
     protected Vector3 patrolPosition;
@@ -307,13 +308,16 @@ public class NpcAI : MonoBehaviour
             {
                 //zicht niet geblokkeerd, dus je kijkt direct naar Player
                 RaycastHit hit;
+                Debug.DrawLine(transform.position, player.position);
                 if (Physics.Linecast(transform.position, player.position, out hit))
                 {
                     if (hit.collider.gameObject.tag == "Player")
                     {
+                        lastSeenPlayer = player.position;
                         return true;
                     }
                 }
+
             }
         }
         return false;

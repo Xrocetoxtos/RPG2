@@ -7,8 +7,14 @@ public class Journal : MonoBehaviour
     [SerializeField] private List<Quest> questList = new List<Quest>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
     [SerializeField] private List<string> journalEntries = new List<string>();
-    
+    private GameHandler gameHandler;
+
     // vergelijkbare structuur met andere dingen (interacties met mensen, hints, etc)
+
+    private void Awake()
+    {
+        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
+    }
 
     //Entries invoeren
     public void InsertEntry(string entry)
@@ -30,9 +36,6 @@ public class Journal : MonoBehaviour
 
     public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
     {
-        //popularityWithNPC bijwerken
-        AddPopularityDictionary(quest.popularityWithNPCCompleted);
-
         //entry quest schrijven
         string entry = "I finished the quest I got";
         if (npcAI != null)
@@ -42,12 +45,40 @@ public class Journal : MonoBehaviour
         entry += ". ";
         entry += quest.questDescription;
         InsertEntry(entry);
+
+        //popularityWithNPC bijwerken
+        AddPopularityDictionary(quest.popularityWithNPCCompleted);
+        //nog een opvolgquest als die bestaat
+        if (quest.nextQuest.Count > 0)
+        {
+            foreach (int q in quest.nextQuest)
+            {
+                Quest qu = gameHandler.GetQuestByID(q);
+                if (qu != null)
+                {
+                    if (qu.questStatus == QuestStatus.Closed)
+                    {
+                        qu.questStatus = QuestStatus.Open;
+                    }
+                }
+            }
+        }
     }
 
     public void InsertQuestFailed(Quest quest, NpcAI npcAI = null)
     {
         //entry quest schrijven
-        //entry popularity schrijven
+        string entry = "I failed the quest '" + quest.questTitle +"' that I got";
+        if (npcAI != null)
+        {
+            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
+        }
+        entry += ". ";
+        entry += quest.questDescription;
+        InsertEntry(entry);
+
+        //popularityWithNPC bijwerken
+        AddPopularityDictionary(quest.popularityWithNPCFailed);
     }
 
     //Quest handling
@@ -103,6 +134,11 @@ public class Journal : MonoBehaviour
                 if (objectives == completedObjectives)
                 {
                     q.questStatus = QuestStatus.Successful;
+                    if(q.returnToGiver==false)
+                    {
+                        q.questStatus = QuestStatus.Completed;
+                        InsertQuestCompleted(q);
+                    }
                 }
             }
         }
@@ -140,9 +176,12 @@ public class Journal : MonoBehaviour
 
     public void AddPopularityDictionary(Dictionary<NPC, int> dict)
     {
-        foreach (KeyValuePair<NPC, int> npc in dict)
+        if (dict.Count > 0)
         {
-            AddPopularity(npc.Key, npc.Value);
+            foreach (KeyValuePair<NPC, int> npc in dict)
+            {
+                AddPopularity(npc.Key, npc.Value);
+            }
         }
     }
 }

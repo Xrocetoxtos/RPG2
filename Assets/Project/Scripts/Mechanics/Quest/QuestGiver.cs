@@ -12,6 +12,7 @@ public class QuestGiver : MonoBehaviour
 
     public Quest quest;
 
+    private GameHandler gameHandler;
     private GUIHandler guiHandler;
     private DialogHandler dialogHandler;
 
@@ -20,10 +21,13 @@ public class QuestGiver : MonoBehaviour
         GameObject player = GameObject.Find("Player");
         journal = player.GetComponent<Journal>();
         playerInventory = player.GetComponent<Inventory>();
-        guiHandler = GameObject.Find("GameHandler").GetComponent<GUIHandler>();
-        dialogHandler = GameObject.Find("GameHandler").GetComponent<DialogHandler>();
+        GameObject gh = GameObject.Find("GameHandler");
+        gameHandler = gh.GetComponent<GameHandler>();
+        guiHandler = gh.GetComponent<GUIHandler>();
+        dialogHandler = gh.GetComponent<DialogHandler>();
         npcAI = GetComponent<NpcAI>();
         giverInventory = GetComponent<Inventory>();
+        gameHandler.allQuests.Add(quest);
     }
 
     public void InteractWithQuestGiver(string npc,NpcAI ai)
@@ -65,7 +69,10 @@ public class QuestGiver : MonoBehaviour
     public void CloseQuestWindow()
     {
         dialogHandler.ToggleDialog(false);
-        npcAI.npcState = npcAI.lastState;
+        if (npcAI != null)
+        {
+            npcAI.npcState = npcAI.lastState;
+        }
     }
 
     // ==================================================================
@@ -76,16 +83,20 @@ public class QuestGiver : MonoBehaviour
     {
         string talk = quest.questOpenDialog;
         dialogHandler.ToggleDialog(true);
-        if (npcAI != null)
+        if (quest.rewardCoins > 0 || quest.rewardObjects.Length > 0)
         {
-            talk += " I'll give you ";
+            if (npcAI != null)
+            {
+                talk += " I'll give you ";
+            }
+            else
+            {
+                talk += " You'll be rewarded with ";
+            }
+
+            talk += quest.NameRewards() + " in return";
         }
-        else
-        {
-            talk += " You'll be rewarded with ";
-        }
-            
-        talk+=  quest.NameRewards() + " in return.";
+        talk += ".";
         dialogHandler.Talk(npcAI, quest.questTitle, talk, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
         quest.questStatus = QuestStatus.Pending;
     }
@@ -155,7 +166,6 @@ public class QuestGiver : MonoBehaviour
     public void SuccessQuest1 (Quest quest, NpcAI npcai)
     {
         //journal bijwerken
-        journal.InsertQuestCompleted(quest, npcai);
 
         if (giverInventory.EnoughInventory(quest.rewardCoins, quest.rewardObjects))
         {
@@ -173,6 +183,7 @@ public class QuestGiver : MonoBehaviour
             {
                 playerInventory.GiveItem(giverInventory, obj.objectToGather);
             }
+            journal.InsertQuestCompleted(quest, npcai);
             CloseQuestWindow();
         }
         else
@@ -191,18 +202,21 @@ public class QuestGiver : MonoBehaviour
             {
                 playerInventory.GiveItem(giverInventory, obj.objectToGather);
             }
+        journal.InsertQuestCompleted(quest, npcai);
         CloseQuestWindow();
     }
 
     public void SuccessQuest1b(Quest quest, NpcAI npcai)
     {
         CloseQuestWindow();
+        journal.InsertQuestCompleted(quest, npcai);
     }
 
     public void SuccessQuest2(Quest quest, NpcAI npcai)
     {
         CloseQuestWindow();
         quest.questStatus = QuestStatus.Failed;
+        journal.InsertQuestFailed(quest, npcai);
     }
 
     public void FailedQuest(Quest quest, NpcAI npcai)
@@ -212,17 +226,7 @@ public class QuestGiver : MonoBehaviour
 
     public void CompletedQuest(Quest quest, NpcAI npcai)
     {
-        //nog een opvolgquest als die bestaat
-        if (quest.nextQuest.Length >0)
-        {
-            foreach (Quest q in quest.nextQuest)
-            {
-                if (q.questStatus == QuestStatus.Closed)
-                {
-                    q.questStatus = QuestStatus.Open;
-                }
-            }
-        }
+       
         CloseQuestWindow();
     }
 

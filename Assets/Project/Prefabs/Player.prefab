@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 6937396158007014079}
   - component: {fileID: 452744428}
   - component: {fileID: 6801845734392342746}
+  - component: {fileID: 3261409943289276509}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -430,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a034adb75b2003f4c927770b9970c6fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   gameHandler: {fileID: 0}
   grabDistance: 3
   seeDistance: 15
@@ -473,6 +475,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questList: []
   journalEntries: []
+--- !u!136 &3261409943289276509
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898725910729533634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2940010962198403109
 GameObject:
   m_ObjectHideFlags: 0

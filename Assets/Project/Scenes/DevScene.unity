@@ -934,6 +934,107 @@ Transform:
   m_Father: {fileID: 1900180538}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &392955898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392955899}
+  - component: {fileID: 392955902}
+  - component: {fileID: 392955901}
+  - component: {fileID: 392955900}
+  m_Layer: 0
+  m_Name: Quest1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &392955899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392955898}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.64, z: -13.5}
+  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1961442728}
+  m_Father: {fileID: 1900180538}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &392955900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392955898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7e5bdf50c4ab94eb0924ff254b929f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGiver: {fileID: 0}
+--- !u!114 &392955901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392955898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3800a3c12cdab949ac25b21e14eae27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcAI: {fileID: 0}
+  journal: {fileID: 0}
+  playerInventory: {fileID: 0}
+  giverInventory: {fileID: 0}
+  quest:
+    questStatus: 1
+    questID: 0
+    questTitle: Move up the ramp
+    questDescription: I need to move up the ramp
+    questOpenDialog: Move up the ramp and have a good look around
+    questPendingDialog: 
+    questActiveDialog: 
+    questSuccessfullDialog: 
+    questFailedDialog: 
+    questCompletedDialog: Nice!
+    questActiveReply: 
+    questSuccessReply1: 
+    questSuccessReply2: 
+    questFailedReply: 
+    questCompletedReply: 
+    questObjectives: []
+    NPCCompleted: []
+    intCompleted: 
+    NPCFailed: []
+    intFailed: 
+    returnToGiver: 0
+    rewardObjects: []
+    rewardCoins: 1
+    nextQuest: 02000000
+--- !u!65 &392955902
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392955898}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0560284, y: 2.4762478, z: 3.64223}
+  m_Center: {x: -0.028013801, y: 0.7381239, z: 1.321115}
 --- !u!1 &489049256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1312,7 @@ PrefabInstance:
     - target: {fileID: 3968717223596922051, guid: acb2a0a350fd23c44a48b0dea20e1c48,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 3968717223596922051, guid: acb2a0a350fd23c44a48b0dea20e1c48,
         type: 3}
@@ -1511,6 +1612,16 @@ PrefabInstance:
       propertyPath: objectTitle
       value: Door 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4680922820886514672, guid: acb2a0a350fd23c44a48b0dea20e1c48,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4680922820886514672, guid: acb2a0a350fd23c44a48b0dea20e1c48,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb2a0a350fd23c44a48b0dea20e1c48, type: 3}
 --- !u!1 &648801519
@@ -1604,6 +1715,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648801519}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &762291599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4680922820886514672, guid: acb2a0a350fd23c44a48b0dea20e1c48,
+    type: 3}
+  m_PrefabInstance: {fileID: 564862284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &762291605
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762291599}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &795131180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1828,6 +1961,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6195037994221409680}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &883677602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4680922820886514672, guid: acb2a0a350fd23c44a48b0dea20e1c48,
+    type: 3}
+  m_PrefabInstance: {fileID: 648310203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &883677608
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883677602}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &911685503
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2226,7 @@ GameObject:
   - component: {fileID: 1258536972}
   - component: {fileID: 1258536971}
   - component: {fileID: 1258536973}
+  - component: {fileID: 1258536974}
   m_Layer: 0
   m_Name: QuestObject
   m_TagString: Untagged
@@ -2086,7 +2242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258536969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.54, z: -12}
+  m_LocalPosition: {x: 0, y: 15.63, z: -44.47}
   m_LocalScale: {x: 20, y: 1, z: 1}
   m_Children:
   - {fileID: 1345804937}
@@ -2110,16 +2266,16 @@ MonoBehaviour:
   playerInventory: {fileID: 0}
   giverInventory: {fileID: 0}
   quest:
-    questStatus: 1
-    questID: 0
+    questStatus: 0
+    questID: 2
     questTitle: Get Blue ball
     questDescription: I need to get a blue ball.
-    questOpenDialog: Get a blue ball
+    questOpenDialog: Get a blue ball.
     questPendingDialog: 
     questActiveDialog: 
     questSuccessfullDialog: 
     questFailedDialog: 
-    questCompletedDialog: You got a blue ball
+    questCompletedDialog: You got a blue ball.
     questActiveReply: 
     questSuccessReply1: 
     questSuccessReply2: 
@@ -2130,8 +2286,10 @@ MonoBehaviour:
     intCompleted: 
     NPCFailed: []
     intFailed: 
+    returnToGiver: 0
     rewardObjects: []
-    rewardCoins: 0
+    rewardCoins: 1
+    nextQuest: 01000000
 --- !u!65 &1258536972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2158,6 +2316,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questGiver: {fileID: 0}
+--- !u!114 &1258536974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258536969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab03df91e99c2b4fa98d69e6946c4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1272814466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,7 +2494,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324502409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.86, y: 17.94, z: -32.96}
+  m_LocalPosition: {x: -1.86, y: 17.94, z: -48.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1900180538}
@@ -3439,6 +3609,7 @@ MonoBehaviour:
   playerLook: {fileID: 0}
   currentEnemy: {fileID: 0}
   isPaused: 0
+  allQuests: []
 --- !u!4 &1809990863
 Transform:
   m_ObjectHideFlags: 0
@@ -3777,6 +3948,7 @@ Transform:
   - {fileID: 2047728049}
   - {fileID: 1324502410}
   - {fileID: 1258536970}
+  - {fileID: 392955899}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3804,6 +3976,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29b296af125d324196d41e6b0fa0525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1961442727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961442728}
+  - component: {fileID: 1961442729}
+  m_Layer: 0
+  m_Name: QuestObjective
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1961442728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961442727}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.35, y: 0.100000024, z: 27}
+  m_LocalScale: {x: 0.05, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 392955899}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1961442729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961442727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d92f8d63d992a40aaf7482de165ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectiveType: 2
+  objectiveStatus: 0
+  objectToGather: {fileID: 0}
+  enemyToDefeat: {fileID: 0}
+  positionToMove: {fileID: 0}
 --- !u!1 &1993428845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3993,6 +4213,7 @@ MonoBehaviour:
   interactDistance: 10
   npcState: 0
   lastState: 0
+  lastSeenPlayer: {x: 0, y: 0, z: 0}
   patrolArray:
   - {fileID: 1792755548}
   - {fileID: 1818073664}
@@ -4018,8 +4239,8 @@ MonoBehaviour:
   playerInventory: {fileID: 0}
   giverInventory: {fileID: 0}
   quest:
-    questStatus: 1
-    questID: 0
+    questStatus: 0
+    questID: 1
     questTitle: Get Red Ball
     questDescription: I need to find a red ball and bring it to Friendly guy
     questOpenDialog: Please bring me a red ball.
@@ -4044,11 +4265,13 @@ MonoBehaviour:
     NPCFailed:
     - {fileID: 1910138434}
     intFailed: 0a000000
+    returnToGiver: 1
     rewardObjects:
     - {fileID: 2047728050}
     - {fileID: 2100843202}
     - {fileID: 560924550}
     rewardCoins: 10
+    nextQuest: 
 --- !u!114 &1993428855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4504,10 +4727,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6937396158007014079, guid: a05263f4f3ded234d85452f1d5bc627e,
+    - target: {fileID: 3261409943289276509, guid: a05263f4f3ded234d85452f1d5bc627e,
         type: 3}
-      propertyPath: crosshair
-      value: 
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}

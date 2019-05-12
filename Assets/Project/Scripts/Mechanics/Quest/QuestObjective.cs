@@ -12,7 +12,7 @@ public class QuestObjective : MonoBehaviour
 
     public WorldObject objectToGather = null;
     public NpcAI enemyToDefeat = null;
-    public GameObject positionToMove=null;       //moet een empty met een collider zijn.
+    public RelevantPosition positionToMove=null;       //moet een object met een collider zijn.
 
     private void Awake()
     {
@@ -41,12 +41,10 @@ public class QuestObjective : MonoBehaviour
         if(inventory.GetItem(objectToGather) != null)
         {
             objectiveStatus = ObjectiveStatus.Completed;
-            Debug.Log("completed");
         }
         else
         {
             objectiveStatus = ObjectiveStatus.Pending;
-            Debug.Log("pending");
         }
     }
 
@@ -57,6 +55,6 @@ public class QuestObjective : MonoBehaviour
 
     private void CheckMoveCompleted()
     {
-
+        // check of er een collision is met het specifieke object van de objective.
     }
 }
