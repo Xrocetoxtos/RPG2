@@ -5,6 +5,7 @@ using UnityEngine;
 public class Journal : MonoBehaviour
 {
     [SerializeField] private List<Quest> questList = new List<Quest>();
+    public Dictionary<Quest, QuestGiver> questGivers = new Dictionary<Quest, QuestGiver>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
     [SerializeField] private List<string> journalEntries = new List<string>();
     private GameHandler gameHandler;
@@ -22,7 +23,7 @@ public class Journal : MonoBehaviour
         journalEntries.Add(entry);
     }
 
-    public void InsertQuestStarted(Quest quest, NpcAI npcAI = null)
+    public void InsertQuestStarted(Quest quest, QuestGiver qg, NpcAI npcAI = null)
     {
         string entry = "I embarked upon a new quest";
         if (npcAI != null)
@@ -97,13 +98,14 @@ public class Journal : MonoBehaviour
         return null;
     }
 
-    public void AddQuest(Quest quest, NpcAI npcAI=null)
+    public void AddQuest(Quest quest, QuestGiver qg, NpcAI npcAI=null)
     {
         if (!HasQuest(quest))
         {
-            quest.Init();
+            quest.Init(qg);
             questList.Add(quest);
-            InsertQuestStarted(quest, npcAI);
+            questGivers.Add(quest, qg);
+            InsertQuestStarted(quest, qg, npcAI);
         }
     }
 
@@ -112,12 +114,14 @@ public class Journal : MonoBehaviour
         if (HasQuest(quest))
         {
             questList.Remove(quest);
+            questGivers.Remove(quest);
+
         }
     }
 
     public void CheckAllActiveObjectives()
     {
-        foreach(Quest q in questList)
+        foreach (Quest q in questList)
         {
             if (q.questStatus!=QuestStatus.Completed && q.questStatus != QuestStatus.Failed)
             {
@@ -136,6 +140,7 @@ public class Journal : MonoBehaviour
                     q.questStatus = QuestStatus.Successful;
                     if(q.returnToGiver==false)
                     {
+                        q.questGiver.CompletedQuest(q, q.questGiver, null);
                         q.questStatus = QuestStatus.Completed;
                         InsertQuestCompleted(q);
                     }

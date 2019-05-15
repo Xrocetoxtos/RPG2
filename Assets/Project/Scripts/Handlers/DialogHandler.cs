@@ -11,11 +11,12 @@ public class DialogHandler : MonoBehaviour
     [SerializeField]    private Button buttonClick2;
 
     //voor de acties uit de buttons onder de dialogwindow
-    public delegate void FireButton(Quest quest, NpcAI npcai);
+    public delegate void FireButton(Quest quest, QuestGiver qg, NpcAI npcai);
     public FireButton PressButton1 = delegate { };
     public FireButton PressButton2 = delegate { };
 
     public NpcAI npcAI = null;
+    public QuestGiver questGiver = null;
     public bool dialogActive = false;
 
     Quest questInDialog = null;
@@ -56,8 +57,9 @@ public class DialogHandler : MonoBehaviour
         dialogActive = dialog;
     }
 
-    public void Talk(NpcAI npc, string title, string text, string button1, string button2, FireButton fb1, FireButton fb2, Quest quest = null)
+    public void Talk(NpcAI npc, string title, string text, string button1, string button2, FireButton fb1, FireButton fb2, Quest quest = null, QuestGiver giver=null)
     {
+        questGiver = giver;
         // generieke manier om dialoog op te zetten. berichten en worden gepassed naar deze method
         Time.timeScale = 0;
         npcAI = npc;
@@ -85,7 +87,7 @@ public class DialogHandler : MonoBehaviour
         if (button2 == "") buttonClick2.gameObject.SetActive(false);
     }
 
-    public void DoNothing(Quest q, NpcAI n)
+    public void DoNothing(Quest q, QuestGiver qg, NpcAI n)
     {
         //als standaardfunctie om niks te doen nav een knop.
         ToggleDialog(false);
@@ -93,11 +95,11 @@ public class DialogHandler : MonoBehaviour
 
     public void Press1()
     {
-        PressButton1(questInDialog,npcAI);
+        PressButton1(questInDialog,questGiver,npcAI);
     }
 
     public void Press2()
     {
-        PressButton2(questInDialog, npcAI);
+        PressButton2(questInDialog, questGiver, npcAI);
     }
 }

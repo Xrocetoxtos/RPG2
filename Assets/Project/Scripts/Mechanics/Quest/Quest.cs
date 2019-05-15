@@ -6,6 +6,7 @@ using UnityEngine;
 public class Quest
 {
     public QuestStatus questStatus;
+    public QuestGiver questGiver;
 
     public int questID;
     public string questTitle;
@@ -41,7 +42,7 @@ public class Quest
     public int rewardCoins;
     public List<int> nextQuest = new List<int>();      // allemaal list id's
 
-    public void Init()
+    public void Init(QuestGiver qg)
     {
         for (int i=0;i<NPCCompleted.Length;i++)
         {
@@ -51,6 +52,7 @@ public class Quest
         {
             popularityWithNPCFailed.Add(NPCFailed[i], intFailed[i]);
         }
+        questGiver = qg;
     }
 
     public bool QuestCompleted()

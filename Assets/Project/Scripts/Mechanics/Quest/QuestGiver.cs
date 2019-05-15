@@ -97,37 +97,37 @@ public class QuestGiver : MonoBehaviour
             talk += quest.NameRewards() + " in return";
         }
         talk += ".";
-        dialogHandler.Talk(npcAI, quest.questTitle, talk, "Accept", "Decline",AcceptQuest, DeclineQuest, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, talk, "Accept", "Decline",AcceptQuest, DeclineQuest, quest, this);
         quest.questStatus = QuestStatus.Pending;
     }
 
     private void QuestPending(string npc)
     {
         dialogHandler.ToggleDialog(true);
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questPendingDialog, "Accept", "Decline", AcceptQuest, DeclineQuest, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questPendingDialog, "Accept", "Decline", AcceptQuest, DeclineQuest, quest, this);
     }
 
     private void QuestActive(string npc)
     {
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questActiveDialog, quest.questActiveReply, "", OkButton, dialogHandler.DoNothing, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questActiveDialog, quest.questActiveReply, "", OkButton, dialogHandler.DoNothing, quest, this);
     }
 
     private void QuestSuccessful(string npc)
     {
         //als het een gather-quest-objective is, kun je kiezen het object niet te geven.
         //uitzoeken hoe dat te doen met meerdere objectives. als het kan wel dynamisch
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questSuccessfullDialog, quest.questSuccessReply1, quest.questSuccessReply2, SuccessQuest1, SuccessQuest2, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questSuccessfullDialog, quest.questSuccessReply1, quest.questSuccessReply2, SuccessQuest1, SuccessQuest2, quest, this);
 
     }
 
     private void QuestFailed(string npc)
     {
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questFailedDialog, quest.questFailedReply, "", FailedQuest, dialogHandler.DoNothing, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questFailedDialog, quest.questFailedReply, "", FailedQuest, dialogHandler.DoNothing, quest, this);
     }
 
     private void QuestCompleted(string npc)
     {
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest);
+        dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest, this);
     }
 
     // ==================================================================
@@ -135,10 +135,10 @@ public class QuestGiver : MonoBehaviour
     // ==================================================================
 
 
-    public void AcceptQuest(Quest quest, NpcAI npcai)
+    public void AcceptQuest(Quest quest, QuestGiver qg, NpcAI npcai)
     {
         quest.questStatus = QuestStatus.Active;
-        journal.AddQuest(quest, npcAI);
+        journal.AddQuest(quest, qg, npcAI);
         CloseQuestWindow();
 
         int ob = 0;
@@ -157,13 +157,13 @@ public class QuestGiver : MonoBehaviour
         }
     }
 
-    public void DeclineQuest(Quest quest, NpcAI npcai)
+    public void DeclineQuest(Quest quest, QuestGiver qg, NpcAI npcai)
     {
         quest.questStatus = QuestStatus.Open;
         CloseQuestWindow();
     }
 
-    public void SuccessQuest1 (Quest quest, NpcAI npcai)
+    public void SuccessQuest1 (Quest quest, QuestGiver qg, NpcAI npcai)
     {
         //journal bijwerken
 
@@ -195,7 +195,7 @@ public class QuestGiver : MonoBehaviour
         }
     }
 
-    public void SuccessQuest1a(Quest quest, NpcAI npcai)
+    public void SuccessQuest1a(Quest quest, QuestGiver qg, NpcAI npcai)
     {
         quest.GiveWhatYouGot(giverInventory, playerInventory);
             foreach (QuestObjective obj in quest.questObjectives)
@@ -206,31 +206,31 @@ public class QuestGiver : MonoBehaviour
         CloseQuestWindow();
     }
 
-    public void SuccessQuest1b(Quest quest, NpcAI npcai)
+    public void SuccessQuest1b(Quest quest, QuestGiver qg, NpcAI npcai)
     {
         CloseQuestWindow();
         journal.InsertQuestCompleted(quest, npcai);
     }
 
-    public void SuccessQuest2(Quest quest, NpcAI npcai)
+    public void SuccessQuest2(Quest quest, QuestGiver qg, NpcAI npcai)
     {
         CloseQuestWindow();
         quest.questStatus = QuestStatus.Failed;
         journal.InsertQuestFailed(quest, npcai);
     }
 
-    public void FailedQuest(Quest quest, NpcAI npcai)
+    public void FailedQuest(Quest quest, QuestGiver qg, NpcAI npcai)
     {
 
     }
 
-    public void CompletedQuest(Quest quest, NpcAI npcai)
+    public void CompletedQuest(Quest quest, QuestGiver qg, NpcAI npcai)
     {
        
         CloseQuestWindow();
     }
 
-    public void OkButton (Quest quest, NpcAI npcai)
+    public void OkButton (Quest quest, QuestGiver qg, NpcAI npcai)
     {
         CloseQuestWindow();
     }

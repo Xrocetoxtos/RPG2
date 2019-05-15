@@ -181,7 +181,7 @@ public class PlayerInteract : MonoBehaviour
         return 0;
     }
 
-    public void FinishExamine(Quest q, NpcAI n)
+    public void FinishExamine(Quest q, QuestGiver qg, NpcAI n)
     {
         dialogHandler.ToggleDialog(false);
         gameHandler.isPaused = false;

@@ -13,8 +13,18 @@ public class RelevantPosition : MonoBehaviour
         questGiver = GetComponent<QuestGiver>();
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider other)
     {
+        //altijd eerst kijken of deze collision een quest oplost
+        journal.CheckAllActiveObjectives();
+
+        //werkt nog niet helemaal, want geen dialoogvenster en op een of andere manier is die andere meteen succesfull
+
+    }
+
+    private void OnTriggerStay(Collider col)
+    {
+
         if (questGiver != null)
         {
             if ((questGiver.quest.questStatus == QuestStatus.Open || questGiver.quest.questStatus == QuestStatus.Pending) && col.gameObject.tag == "Player")
@@ -22,6 +32,5 @@ public class RelevantPosition : MonoBehaviour
                 questGiver.InteractWithQuestGiver("testcollider", null);
             }
         }
-        journal.CheckAllActiveObjectives();
     }
 }

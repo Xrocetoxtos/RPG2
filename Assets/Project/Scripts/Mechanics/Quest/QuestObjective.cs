@@ -56,5 +56,7 @@ public class QuestObjective : MonoBehaviour
     private void CheckMoveCompleted()
     {
         // check of er een collision is met het specifieke object van de objective.
+
+        //gebeurt vanuit het collider-object RelavantPosition.
     }
 }

@@ -977,10 +977,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 392955898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f7e5bdf50c4ab94eb0924ff254b929f, type: 3}
+  m_Script: {fileID: 11500000, guid: fab03df91e99c2b4fa98d69e6946c4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questGiver: {fileID: 0}
 --- !u!114 &392955901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +998,7 @@ MonoBehaviour:
   giverInventory: {fileID: 0}
   quest:
     questStatus: 1
+    questGiver: {fileID: 0}
     questID: 0
     questTitle: Move up the ramp
     questDescription: I need to move up the ramp
@@ -2225,7 +2225,6 @@ GameObject:
   - component: {fileID: 1258536970}
   - component: {fileID: 1258536972}
   - component: {fileID: 1258536971}
-  - component: {fileID: 1258536973}
   - component: {fileID: 1258536974}
   m_Layer: 0
   m_Name: QuestObject
@@ -2267,6 +2266,7 @@ MonoBehaviour:
   giverInventory: {fileID: 0}
   quest:
     questStatus: 0
+    questGiver: {fileID: 0}
     questID: 2
     questTitle: Get Blue ball
     questDescription: I need to get a blue ball.
@@ -2303,19 +2303,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0560284, y: 2.4762478, z: 3.64223}
   m_Center: {x: -0.028013801, y: 0.7381239, z: 1.321115}
---- !u!114 &1258536973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1258536969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f7e5bdf50c4ab94eb0924ff254b929f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questGiver: {fileID: 0}
 --- !u!114 &1258536974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3669,6 +3656,7 @@ MonoBehaviour:
   buttonClick1: {fileID: 189966506}
   buttonClick2: {fileID: 281753471}
   npcAI: {fileID: 0}
+  questGiver: {fileID: 0}
   dialogActive: 0
 --- !u!1 &1818073663
 GameObject:
@@ -4240,6 +4228,7 @@ MonoBehaviour:
   giverInventory: {fileID: 0}
   quest:
     questStatus: 0
+    questGiver: {fileID: 0}
     questID: 1
     questTitle: Get Red Ball
     questDescription: I need to find a red ball and bring it to Friendly guy
