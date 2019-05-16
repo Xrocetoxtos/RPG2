@@ -1012,8 +1012,9 @@ MonoBehaviour:
     questSuccessReply1: 
     questSuccessReply2: 
     questFailedReply: 
-    questCompletedReply: 
-    questObjectives: []
+    questCompletedReply: Good
+    questObjectives:
+    - {fileID: 1961442729}
     NPCCompleted: []
     intCompleted: 
     NPCFailed: []
@@ -2281,7 +2282,8 @@ MonoBehaviour:
     questSuccessReply2: 
     questFailedReply: 
     questCompletedReply: 
-    questObjectives: []
+    questObjectives:
+    - {fileID: 1345804938}
     NPCCompleted: []
     intCompleted: 
     NPCFailed: []
@@ -4011,7 +4013,7 @@ MonoBehaviour:
   objectiveStatus: 0
   objectToGather: {fileID: 0}
   enemyToDefeat: {fileID: 0}
-  positionToMove: {fileID: 0}
+  positionToMove: {fileID: 1258536974}
 --- !u!1 &1993428845
 GameObject:
   m_ObjectHideFlags: 0

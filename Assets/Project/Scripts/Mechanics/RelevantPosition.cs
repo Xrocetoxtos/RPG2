@@ -7,6 +7,8 @@ public class RelevantPosition : MonoBehaviour
     private QuestGiver questGiver=null;
     private Journal journal;
 
+    public bool busyFirstThing = false;
+
     private void Awake()
     {
         journal = GameObject.Find("Player").GetComponent<Journal>();
@@ -15,21 +17,31 @@ public class RelevantPosition : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //altijd eerst kijken of deze collision een quest oplost
-        journal.CheckAllActiveObjectives();
-
-        //werkt nog niet helemaal, want geen dialoogvenster en op een of andere manier is die andere meteen succesfull
-
+        if (other.tag == "Player")
+        {
+            //altijd eerst kijken of deze collision een quest oplost
+            journal.CheckAllActiveObjectives(this);
+        }
     }
 
     private void OnTriggerStay(Collider col)
     {
-
-        if (questGiver != null)
+        if (!busyFirstThing)
         {
-            if ((questGiver.quest.questStatus == QuestStatus.Open || questGiver.quest.questStatus == QuestStatus.Pending) && col.gameObject.tag == "Player")
+            if (col.gameObject.tag == "Player")
             {
-                questGiver.InteractWithQuestGiver("testcollider", null);
+                Debug.Log("ben er");
+                if (questGiver != null)
+                {
+                    Debug.Log("ben er qg");
+
+                    if ((questGiver.quest.questStatus == QuestStatus.Open || questGiver.quest.questStatus == QuestStatus.Pending))
+                    {
+                        Debug.Log("ben er q");
+
+                        questGiver.InteractWithQuestGiver("testcollider", null, this);
+                    }
+                }
             }
         }
     }

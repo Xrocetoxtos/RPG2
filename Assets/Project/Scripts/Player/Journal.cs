@@ -119,7 +119,7 @@ public class Journal : MonoBehaviour
         }
     }
 
-    public void CheckAllActiveObjectives()
+    public void CheckAllActiveObjectives(RelevantPosition rp=null)
     {
         foreach (Quest q in questList)
         {
@@ -129,7 +129,7 @@ public class Journal : MonoBehaviour
                 int completedObjectives = 0;
                 foreach (QuestObjective o in q.questObjectives)
                 {
-                    o.CheckObjectiveCompleted();
+                    o.CheckObjectiveCompleted(rp);
                     if(o.objectiveStatus == ObjectiveStatus.Completed)
                     {
                         completedObjectives++;
@@ -140,8 +140,10 @@ public class Journal : MonoBehaviour
                     q.questStatus = QuestStatus.Successful;
                     if(q.returnToGiver==false)
                     {
+                        rp.busyFirstThing = true;
                         q.questGiver.CompletedQuest(q, q.questGiver, null);
                         q.questStatus = QuestStatus.Completed;
+                        q.questGiver.InteractWithQuestGiver("questgiver", null, rp);
                         InsertQuestCompleted(q);
                     }
                 }

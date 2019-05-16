@@ -6,6 +6,7 @@ public class QuestObjective : MonoBehaviour
 {
     private GameObject player;
     private Inventory inventory;
+    private Journal journal;
     
     public ObjectiveType objectiveType = ObjectiveType.Gather;
     public ObjectiveStatus objectiveStatus = ObjectiveStatus.Pending;
@@ -18,9 +19,10 @@ public class QuestObjective : MonoBehaviour
     {
         player = GameObject.Find("Player");
         inventory = player.GetComponent<Inventory>();
+        journal = player.GetComponent<Journal>();
     }
 
-    public void CheckObjectiveCompleted()
+    public void CheckObjectiveCompleted(RelevantPosition rp=null)
     {
         switch (objectiveType)
         {
@@ -31,7 +33,7 @@ public class QuestObjective : MonoBehaviour
                 CheckDefeatCompleted();
                 break;
             case ObjectiveType.Move:
-                CheckMoveCompleted();
+                CheckMoveCompleted(rp);
                 break;
         }
     }
@@ -53,10 +55,15 @@ public class QuestObjective : MonoBehaviour
 
     }
 
-    private void CheckMoveCompleted()
+    private void CheckMoveCompleted(RelevantPosition rp=null)
     {
-        // check of er een collision is met het specifieke object van de objective.
-
-        //gebeurt vanuit het collider-object RelavantPosition.
+        if(positionToMove==rp)
+        {
+            objectiveStatus = ObjectiveStatus.Completed;
+        }
+        else
+        {
+            objectiveStatus = ObjectiveStatus.Pending;
+        }
     }
 }

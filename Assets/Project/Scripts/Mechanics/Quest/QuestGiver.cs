@@ -15,6 +15,7 @@ public class QuestGiver : MonoBehaviour
     private GameHandler gameHandler;
     private GUIHandler guiHandler;
     private DialogHandler dialogHandler;
+    public RelevantPosition relevantPosition;
 
     private void Awake()
     {
@@ -30,8 +31,9 @@ public class QuestGiver : MonoBehaviour
         gameHandler.allQuests.Add(quest);
     }
 
-    public void InteractWithQuestGiver(string npc,NpcAI ai)
+    public void InteractWithQuestGiver(string npc,NpcAI ai, RelevantPosition rp=null)
     {
+        relevantPosition = rp;
         npcAI = ai;
         switch (quest.questStatus)
         {
@@ -127,7 +129,22 @@ public class QuestGiver : MonoBehaviour
 
     private void QuestCompleted(string npc)
     {
-        dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest, this);
+        if (relevantPosition != null)
+        {
+            Debug.Log(relevantPosition.busyFirstThing);
+            if (relevantPosition.busyFirstThing)
+            {
+                dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuestUnblock, dialogHandler.DoNothing, quest, this);
+            }
+            else
+            {
+                dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest, this);
+            }
+        }
+        else
+        {
+            dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuest, dialogHandler.DoNothing, quest, this);
+        }
     }
 
     // ==================================================================
@@ -143,6 +160,7 @@ public class QuestGiver : MonoBehaviour
 
         int ob = 0;
         int oc = quest.questObjectives.Length;
+        Debug.Log(quest.questTitle + " obj " + oc);
         foreach (QuestObjective qo in quest.questObjectives)
         {
             qo.CheckObjectiveCompleted();
@@ -226,8 +244,14 @@ public class QuestGiver : MonoBehaviour
 
     public void CompletedQuest(Quest quest, QuestGiver qg, NpcAI npcai)
     {
-       
+
         CloseQuestWindow();
+    }
+
+    public void CompletedQuestUnblock(Quest quest, QuestGiver qg, NpcAI npcai)
+    {
+        CloseQuestWindow();
+        relevantPosition.busyFirstThing = false;        
     }
 
     public void OkButton (Quest quest, QuestGiver qg, NpcAI npcai)
