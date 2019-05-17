@@ -980,6 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fab03df91e99c2b4fa98d69e6946c4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyFirstThing: 0
 --- !u!114 &392955901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1024,7 @@ MonoBehaviour:
     rewardObjects: []
     rewardCoins: 1
     nextQuest: 02000000
+  relevantPosition: {fileID: 0}
 --- !u!65 &392955902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2281,7 +2283,7 @@ MonoBehaviour:
     questSuccessReply1: 
     questSuccessReply2: 
     questFailedReply: 
-    questCompletedReply: 
+    questCompletedReply: Ok
     questObjectives:
     - {fileID: 1345804938}
     NPCCompleted: []
@@ -2292,6 +2294,7 @@ MonoBehaviour:
     rewardObjects: []
     rewardCoins: 1
     nextQuest: 01000000
+  relevantPosition: {fileID: 0}
 --- !u!65 &1258536972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2317,6 +2320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fab03df91e99c2b4fa98d69e6946c4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyFirstThing: 0
 --- !u!1 &1272814466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,7 +2487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324502409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.86, y: 17.94, z: -48.43}
+  m_LocalPosition: {x: -1.86, y: 17.94, z: -55.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1900180538}
@@ -3954,6 +3958,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf77f4e24340584ebfcaf0a21485aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1908565356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1908565357}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1908565357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908565356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.7141757, y: 1.780159, z: -37.99335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1910138434 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6195037993889620466, guid: 7b719df69662f33428f6bc9540bff6f3,
@@ -4263,6 +4297,7 @@ MonoBehaviour:
     - {fileID: 560924550}
     rewardCoins: 10
     nextQuest: 
+  relevantPosition: {fileID: 0}
 --- !u!114 &1993428855
 MonoBehaviour:
   m_ObjectHideFlags: 0

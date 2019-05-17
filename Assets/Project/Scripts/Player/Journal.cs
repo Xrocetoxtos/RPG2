@@ -140,7 +140,10 @@ public class Journal : MonoBehaviour
                     q.questStatus = QuestStatus.Successful;
                     if(q.returnToGiver==false)
                     {
-                        rp.busyFirstThing = true;
+                        if (rp != null)
+                        {
+                            rp.busyFirstThing = true;
+                        }
                         q.questGiver.CompletedQuest(q, q.questGiver, null);
                         q.questStatus = QuestStatus.Completed;
                         q.questGiver.InteractWithQuestGiver("questgiver", null, rp);

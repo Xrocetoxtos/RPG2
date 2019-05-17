@@ -59,6 +59,7 @@ public class DialogHandler : MonoBehaviour
 
     public void Talk(NpcAI npc, string title, string text, string button1, string button2, FireButton fb1, FireButton fb2, Quest quest = null, QuestGiver giver=null)
     {
+        gameHandler.isPaused = true;
         questGiver = giver;
         // generieke manier om dialoog op te zetten. berichten en worden gepassed naar deze method
         Time.timeScale = 0;
@@ -96,10 +97,14 @@ public class DialogHandler : MonoBehaviour
     public void Press1()
     {
         PressButton1(questInDialog,questGiver,npcAI);
+        gameHandler.isPaused = false;
+
     }
 
     public void Press2()
     {
         PressButton2(questInDialog, questGiver, npcAI);
+        gameHandler.isPaused = false;
+
     }
 }

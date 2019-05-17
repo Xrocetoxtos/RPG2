@@ -53,9 +53,10 @@ public class PlayerInteract : MonoBehaviour
             crosshair.sprite = crosshairImage[SetCrosshairState(hit.distance)];
                 
             // als dat iets raakt, check of het Worldobject is
-            if (hit.collider.gameObject.tag == "InteractObject")
+
+            WorldObject worldObject = hit.collider.gameObject.GetComponent<WorldObject>();
+            if (worldObject != null)
             {
-                WorldObject worldObject = hit.collider.gameObject.GetComponent<WorldObject>();
                 GUIShowObject(worldObject, hit);
             }
         }
@@ -150,7 +151,6 @@ public class PlayerInteract : MonoBehaviour
     private void ExamineWorldObject(WorldObject worldObject)
     {
         justExamined = true;
-        gameHandler.isPaused = true;
         string textToShow = worldObject.objectDescription;
         textToShow += ": \n\n" + worldObject.gameObject.GetComponent<Interactable>().interactableDescription;
         dialogHandler.Talk(null, worldObject.objectTitle, textToShow, "Finish", "", FinishExamine, dialogHandler.DoNothing, null);
