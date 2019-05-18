@@ -10,6 +10,10 @@ public class WorldObject : MonoBehaviour
     public ObjectType objectType;
     public Sprite objectSprite;
 
+    //GUI info
+    public string useButton;
+    public string dropButton;
+
     //staat van het object
     public int objectScene;
     public Transform objectTransform;
@@ -26,8 +30,6 @@ public class WorldObject : MonoBehaviour
 
     private void Awake()
     {
-        objectTransform = transform;
-
         ThisScene();
         GetComponents();
     }
@@ -70,14 +72,15 @@ public class WorldObject : MonoBehaviour
             objectType = ObjectType.Interactable;
             return;
         }
-
-
     }
 
-    public void PutDownObject(Transform place)
+    public void DropItem()
     {
-        objectTransform = place;
-        objectIsThere = true;
         gameObject.SetActive(true);
+        GameObject player = GameObject.Find("Player");
+        Vector3 placeDown = Vector3.forward;
+        transform.position = player.transform.position + placeDown;
+        objectIsThere = true;
+        player.GetComponent<Inventory>().RemoveItem(this);
     }
 }

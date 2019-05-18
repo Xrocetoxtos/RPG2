@@ -30,6 +30,9 @@ public class GUIHandler : MonoBehaviour
     public TextMeshProUGUI dialogButton1;
     public TextMeshProUGUI dialogButton2;
 
+    [Header("Inventory")]
+    public GameObject inventoryWindow;
+
     private void Awake()
     {
         mainPanel = GameObject.Find("MainPanel");
@@ -42,6 +45,7 @@ public class GUIHandler : MonoBehaviour
         guiMessage2.SetText("");
         enemyHealthCanvas.SetActive(false);
         InitDialogGUI();
+        InitInventoryGUI();
     }
 
     private void InitDialogGUI()
@@ -53,6 +57,21 @@ public class GUIHandler : MonoBehaviour
         dialogButton1 = GameObject.Find("Button1Text").GetComponent<TextMeshProUGUI>();
         dialogButton2 = GameObject.Find("Button2Text").GetComponent<TextMeshProUGUI>();
         dialogWindow.SetActive(false);
+    }
+
+    private void InitInventoryGUI()
+    {
+        inventoryWindow = GameObject.Find("InventoryWindow(Clone)");
+        inventoryWindow.transform.SetParent(GameObject.Find("Canvas").transform);
+        RectTransform rt = inventoryWindow.GetComponent<RectTransform>();
+
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
+        rt.anchoredPosition = Vector2.zero;
+
+        inventoryWindow.SetActive(false);
+
     }
 
     private void Update()
@@ -84,6 +103,20 @@ public class GUIHandler : MonoBehaviour
         }
     }
 
+    public void InventoryView()
+    {
+        if(gameHandler.isPaused)
+        {
+            gameHandler.UnlockCursor();
+        }
+        else
+        {
+            gameHandler.LockCursor();
+        }
+        inventoryWindow.SetActive(gameHandler.isPaused);
+        mainPanel.SetActive(!gameHandler.isPaused);
+    }
+
     public void UnderWater()
     {
         deepWaterMask.SetActive(true);
@@ -93,4 +126,6 @@ public class GUIHandler : MonoBehaviour
     {
         deepWaterMask.SetActive(false);
     }
+
+
 }

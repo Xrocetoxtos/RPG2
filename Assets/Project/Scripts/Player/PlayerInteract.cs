@@ -144,6 +144,14 @@ public class PlayerInteract : MonoBehaviour
     {
         inventory.AddItem(worldObject);
         guiHandler.ViewBothGUIMessages(worldObject.objectTitle, "picked up.");
+        //inventory.Display();
+        InventoryDisplay inv = guiHandler.inventoryWindow.GetComponent<InventoryDisplay>();
+        inv.PrimeItem(worldObject);
+        if (inv.selectedItemDisplay.item==null)
+        {
+            inv.SelectObject(worldObject);
+        }
+
         worldObject.gameObject.SetActive(false);
         justPickedUp = true;
     }

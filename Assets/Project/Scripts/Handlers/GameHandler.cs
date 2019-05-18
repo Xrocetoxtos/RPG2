@@ -18,6 +18,7 @@ public class GameHandler : MonoBehaviour
 
     private void Awake()
     {
+        guiHandler = GetComponent<GUIHandler>();
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -50,14 +51,52 @@ public class GameHandler : MonoBehaviour
 
     private void GetInput()
     {
+
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Pause))
         {
             Paused();
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryWindow();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            QuestWindow();
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            JournalWindow();
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            EquipmentWindow();
+        }
+    }
+
+    private void InventoryWindow()
+    {
+        Paused(false);
+        guiHandler.InventoryView();
+    }
+
+    private void JournalWindow()
+    {
+
+    }
+
+    private void QuestWindow()
+    {
+
+    }
+
+    private void EquipmentWindow()
+    {
+
     }
 
     // Game States
-    public void Paused()
+    public void Paused(bool GUI=true)
     {
         if (isPaused)
         {
@@ -67,8 +106,15 @@ public class GameHandler : MonoBehaviour
         }
         else
         {
-            guiHandler.ViewGUImessage(guiHandler.guiMessage, "Game paused.");
-            guiHandler.ViewGUImessage(guiHandler.guiMessage2, "");
+            if (GUI)
+            {
+                guiHandler.ViewGUImessage(guiHandler.guiMessage, "Game paused.");
+                guiHandler.ViewGUImessage(guiHandler.guiMessage2, "");
+            }
+            else
+            {
+                guiHandler.ViewBothGUIMessages("", "");
+            }
             Time.timeScale = 0;
             isPaused = true;
         }

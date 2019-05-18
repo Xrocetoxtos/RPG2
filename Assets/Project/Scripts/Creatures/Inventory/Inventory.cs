@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    private GUIHandler guiHandler;
     public int creatureCoins = 0;
     public List<WorldObject> creatureInventory = new List<WorldObject>();
 
     private Journal journal;
     public bool isPlayer = false;
-    // TODO - een verwijzing naar de display.
+
+    public InventoryDisplay inventoryDisplayPrefab;
 
     private void Awake()
     {
@@ -17,7 +18,14 @@ public class Inventory : MonoBehaviour
         if (journal !=null)
         {
             isPlayer = true;
+            Display();
         }
+    }
+
+    public void Display()
+    {
+        InventoryDisplay display = (InventoryDisplay)Instantiate(inventoryDisplayPrefab);
+        display.Prime(creatureInventory);
     }
 
     //Items
@@ -46,7 +54,6 @@ public class Inventory : MonoBehaviour
         if (isPlayer)
         {
             journal.CheckAllActiveObjectives();
-            //display bijwerken
         }
     }
 
