@@ -27,15 +27,68 @@ public class InventoryItemDisplay : MonoBehaviour
         }
         if (sprite != null)
         {
+            sprite.gameObject.SetActive(true);
             sprite.sprite = item.objectSprite;
         }
-        if (buttonUse!=null)
+        Button1();
+        Button2();
+    }
+    
+    public void Empty()
+    {
+        if (textName != null)
         {
-            buttonUse.SetText(item.useButton);
+            textName.SetText("");
+        }
+        if (textDescription != null)
+        {
+            textDescription.SetText("Your pockets are empty");
+        }
+        if (sprite != null)
+        {
+            sprite.gameObject.SetActive(false);
+        }
+        if (buttonUse != null)
+        {
+            buttonUse.SetText("");
         }
         if (buttonDrop != null)
         {
-            buttonDrop.SetText(item.dropButton);
+            buttonDrop.SetText("");
         }
     }
+
+    private void Button1()
+    {
+        if (buttonUse == null) return;
+        if (item.useButton != null)
+        {
+            buttonUse.SetText(item.useButton);
+            return;
+        }
+        if(item.foodObject)
+        {
+            buttonUse.SetText("Consume");
+            return;
+
+        }
+        if (item.weaponObject || item.attireObject)
+        {
+            buttonUse.SetText("Equip");
+            return;
+        }
+        buttonUse.SetText("Use");
+    }
+
+    private void Button2()
+    {
+        if (buttonDrop == null) return;
+        if (item.useButton != null)
+        {
+            buttonUse.SetText(item.useButton);
+            return;
+        }
+        buttonUse.SetText("Drop");
+    }
+
 }

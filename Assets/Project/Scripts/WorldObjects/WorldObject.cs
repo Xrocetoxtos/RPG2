@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class WorldObject : MonoBehaviour
 {
+    private Inventory playerInventory;
+    private Transform dropLocation;
     //basisinformatie voor alle worldObjects
     public int objectNumber;
     public string objectTitle;
@@ -30,6 +32,7 @@ public class WorldObject : MonoBehaviour
 
     private void Awake()
     {
+        playerInventory = GameObject.Find("Player").GetComponent<Inventory>();
         ThisScene();
         GetComponents();
     }
@@ -77,10 +80,9 @@ public class WorldObject : MonoBehaviour
     public void DropItem()
     {
         gameObject.SetActive(true);
-        GameObject player = GameObject.Find("Player");
-        Vector3 placeDown = Vector3.forward;
-        transform.position = player.transform.position + placeDown;
+        dropLocation = GameObject.Find("DropLocation").transform;
+        transform.position = dropLocation.position;
         objectIsThere = true;
-        player.GetComponent<Inventory>().RemoveItem(this);
+        playerInventory.RemoveItem(this);
     }
 }
