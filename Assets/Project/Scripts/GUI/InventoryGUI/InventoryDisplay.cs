@@ -53,29 +53,35 @@ public class InventoryDisplay : MonoBehaviour
 
     public void DropItem()
     {
-        int aantal = 0;
+        bool found = false;     // het betreffende item moet weggegooid
+        bool selected = false;  // het eerste niet-betreffende item moet geselecteerd
+        WorldObject selItem = null;
         foreach (Transform child in panel)
         {
-            if (child.gameObject.GetComponent<InventoryItemDisplay>().item == selectedItemDisplay.item)
-            {
-                Destroy(child.gameObject);
-            }
-            else
-            {
-                aantal++;
-            }
+            if (!selected || !found)
+            { 
+                if (child.gameObject.GetComponent<InventoryItemDisplay>().item == selectedItemDisplay.item)
+                {
+                    selectedItemDisplay.item.DropItem();
+                    Destroy(child.gameObject);
+                    found = true;
+                }
+                else if(!selected)
+                {
+                    selItem = child.gameObject.GetComponent<InventoryItemDisplay>().item;
+                    selected = true;
+                }
+            }   
         }
-        if (selectedItemDisplay.item != null)
+
+        if (!selected)
         {
-            selectedItemDisplay.item.DropItem();
-            //opnieuw opbouwen
             selectedItemDisplay.item = null;
             selectedItemDisplay.Empty();
-            if(aantal>0)
-            {
-                SelectObject(panel.GetChild(1).GetComponent<InventoryItemDisplay>().item);
-            }
-            
+        }
+        else
+        {
+            SelectObject(selItem);
         }
     }
 }

@@ -101,4 +101,9 @@ public class InventoryItemDisplay : MonoBehaviour
         buttonDrop.SetText("Drop");
     }
 
+    public void SelectButton()
+    {
+        Debug.Log(item.objectTitle);
+        GameObject.Find("InventoryWindow(Clone)").GetComponent<InventoryDisplay>().SelectObject(item);
+    }
 }
