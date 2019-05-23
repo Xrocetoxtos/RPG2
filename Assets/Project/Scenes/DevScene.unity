@@ -4177,6 +4177,7 @@ GameObject:
   - component: {fileID: 2030890566}
   - component: {fileID: 2030890565}
   - component: {fileID: 2030890564}
+  - component: {fileID: 2030890570}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -4227,8 +4228,8 @@ MonoBehaviour:
   objectDescription: cures the pain of testing
   objectType: 0
   objectSprite: {fileID: 21300000, guid: 29c4b35cf99907d4ba0ad675b255c62a, type: 3}
-  useButton: test
-  dropButton: drop
+  useButton: 
+  dropButton: Toss out
   objectScene: 0
   objectTransform: {fileID: 0}
   objectIsThere: 1
@@ -4314,6 +4315,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030890562}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2030890570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030890562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5540d6f3ea2c74b8f106b6cf8c49c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getHealth: 0
+  getEnergy: 0
 --- !u!4 &2033315732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1377228418097476665, guid: 2e6fe7c5262781f4888c0cf24bf5e7f3,

@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f67f38d4e53cc0438382b20abfb62f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 0}
   targetTransform: {fileID: 2668108386318668782}
   itemDisplayPrefab: {fileID: 374069757285003155, guid: 79aba382d3a953d478be7084f654d065,
     type: 3}
@@ -953,6 +954,8 @@ MonoBehaviour:
   sprite: {fileID: 7012462304380229545}
   buttonUse: {fileID: 3326714327401964737}
   buttonDrop: {fileID: 3390613907242973373}
+  useButton: {fileID: 3047988727589390497}
+  dropButton: {fileID: 302908213534997689}
   item: {fileID: 0}
 --- !u!1 &5035375172469468719
 GameObject:

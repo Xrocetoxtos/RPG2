@@ -12,6 +12,10 @@ public class InventoryItemDisplay : MonoBehaviour
     public TextMeshProUGUI buttonUse;
     public TextMeshProUGUI buttonDrop;
 
+    //de objecten zelf
+    public GameObject useButton;
+    public GameObject dropButton;
+
     public WorldObject item;
 
     public void Prime(WorldObject item)
@@ -50,18 +54,22 @@ public class InventoryItemDisplay : MonoBehaviour
         }
         if (buttonUse != null)
         {
+            useButton.SetActive(false);
             buttonUse.SetText("");
         }
         if (buttonDrop != null)
         {
+            dropButton.SetActive(false);
             buttonDrop.SetText("");
         }
     }
 
     private void Button1()
     {
-        if (buttonUse == null) return;
-        if (item.useButton != null)
+        if (buttonUse == null || useButton==null) return;
+
+        useButton.SetActive(true);
+        if (item.useButton != "")
         {
             buttonUse.SetText(item.useButton);
             return;
@@ -82,13 +90,15 @@ public class InventoryItemDisplay : MonoBehaviour
 
     private void Button2()
     {
-        if (buttonDrop == null) return;
-        if (item.useButton != null)
+        if (buttonDrop == null || dropButton==null) return;
+
+        dropButton.SetActive(true);
+        if (item.dropButton != "")
         {
-            buttonUse.SetText(item.useButton);
+            buttonDrop.SetText(item.dropButton);
             return;
         }
-        buttonUse.SetText("Drop");
+        buttonDrop.SetText("Drop");
     }
 
 }
