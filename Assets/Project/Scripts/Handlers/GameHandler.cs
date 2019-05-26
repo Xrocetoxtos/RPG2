@@ -76,13 +76,12 @@ public class GameHandler : MonoBehaviour
 
     private void InventoryWindow()
     {
-        Paused(false);
         guiHandler.InventoryView();
     }
 
     private void JournalWindow()
     {
-
+        guiHandler.JournalView();
     }
 
     private void QuestWindow()

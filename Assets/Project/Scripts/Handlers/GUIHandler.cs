@@ -5,6 +5,7 @@ using TMPro;
 public class GUIHandler : MonoBehaviour
 {
     private GameHandler gameHandler;
+    private DialogHandler dialogHandler;
     public HealthBar enemyHealth;
     public EnergyBar enemyEnergy;
     public GameObject enemyHealthCanvas;
@@ -29,14 +30,22 @@ public class GUIHandler : MonoBehaviour
     public TextMeshProUGUI dialogDescription;
     public TextMeshProUGUI dialogButton1;
     public TextMeshProUGUI dialogButton2;
+    private bool dialogActive = false;
 
     [Header("Inventory")]
     public GameObject inventoryWindow;
+    private bool inventoryActive=false;
+
+    [Header("Journal")]
+    public GameObject journalWindow;
+    private JournalDisplay journalDisplay;
+    private bool journalActive=false;
 
     private void Awake()
     {
         mainPanel = GameObject.Find("MainPanel");
         gameHandler = GetComponent<GameHandler>();
+        dialogHandler = GetComponent<DialogHandler>();
         black = GameObject.Find("BlackBackground").GetComponent<Image>();
         deepWaterMask = GameObject.Find("DeepWaterMask");
         guiMessage = GameObject.Find("GUIMessage").GetComponent<TextMeshProUGUI>();
@@ -46,6 +55,8 @@ public class GUIHandler : MonoBehaviour
         enemyHealthCanvas.SetActive(false);
         InitDialogGUI();
         InitInventoryGUI();
+        InitJournalGUI();
+        AllViewsFalse();
     }
 
     private void InitDialogGUI()
@@ -56,7 +67,6 @@ public class GUIHandler : MonoBehaviour
         dialogDescription = GameObject.Find("DialogDescription").GetComponent<TextMeshProUGUI>();
         dialogButton1 = GameObject.Find("Button1Text").GetComponent<TextMeshProUGUI>();
         dialogButton2 = GameObject.Find("Button2Text").GetComponent<TextMeshProUGUI>();
-        dialogWindow.SetActive(false);
     }
 
     private void InitInventoryGUI()
@@ -69,9 +79,12 @@ public class GUIHandler : MonoBehaviour
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;
         rt.anchoredPosition = Vector2.zero;
+    }
 
-        inventoryWindow.SetActive(false);
-
+    private void InitJournalGUI()
+    {
+        journalWindow = GameObject.Find("JournalWindow");
+        journalDisplay = journalWindow.GetComponent<JournalDisplay>();
     }
 
     private void Update()
@@ -103,18 +116,57 @@ public class GUIHandler : MonoBehaviour
         }
     }
 
+    private void AllViewsFalse()
+    {
+        inventoryActive = false;
+        journalActive = false;
+
+        dialogWindow.SetActive(false);
+        inventoryWindow.SetActive(false);
+        journalWindow.SetActive(false);
+    }
+
     public void InventoryView()
     {
-        if(gameHandler.isPaused)
+        if (inventoryActive ||!gameHandler.isPaused)
         {
-            gameHandler.UnlockCursor();
+            gameHandler.Paused(false);
+
+            if (gameHandler.isPaused)
+            {
+                gameHandler.UnlockCursor();
+            }
+            else
+            {
+                gameHandler.LockCursor();
+            }
+            AllViewsFalse();
+            inventoryWindow.SetActive(gameHandler.isPaused);
+            mainPanel.SetActive(!gameHandler.isPaused);
+            inventoryActive = gameHandler.isPaused;
         }
-        else
+    }
+
+    public void JournalView()
+    {
+        if (journalActive || !gameHandler.isPaused)
         {
-            gameHandler.LockCursor();
+            gameHandler.Paused(false);
+
+            if (gameHandler.isPaused)
+            {
+                gameHandler.UnlockCursor();
+            }
+            else
+            {
+                gameHandler.LockCursor();
+            }
+            AllViewsFalse();
+            journalWindow.SetActive(gameHandler.isPaused);
+            journalDisplay.GetEntries();
+            mainPanel.SetActive(!gameHandler.isPaused);
+            journalActive = gameHandler.isPaused;
         }
-        inventoryWindow.SetActive(gameHandler.isPaused);
-        mainPanel.SetActive(!gameHandler.isPaused);
     }
 
     public void UnderWater()
