@@ -42,3 +42,10 @@ public enum ObjectiveType
     Defeat,
     Move
 }
+
+public enum EntryTypes
+{
+    Entry,
+    Quest,
+    Reputation
+}

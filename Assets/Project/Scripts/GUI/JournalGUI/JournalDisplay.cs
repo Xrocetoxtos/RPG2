@@ -10,16 +10,30 @@ public class JournalDisplay : MonoBehaviour
 
     public Transform panel;
     public Transform targetTransform;
-    
-    // Start is called before the first frame update
+
+    private Journal journal;
+    private bool selectedPrimed = false;
+
+    public Sprite entrySprite;
+    public Sprite questSprite;
+    public Sprite reputationSprite;
+
+    public Sprite emptyVinkje;
+    public Sprite succesfullVinkje;
+    public Sprite completedVinkje;
+    public Sprite failedVinkje;
+
+    public Sprite upArrow;
+    public Sprite downArrow;
+
     private void Awake()
     {
         entryPanel = GameObject.Find("EntryPanel");
         questPanel = GameObject.Find("QuestPanel");
         reputationPanel = GameObject.Find("ReputationPanel");
+        journal = GameObject.Find("Player").GetComponent<Journal>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         ButtonsForViews();
@@ -61,5 +75,11 @@ public class JournalDisplay : MonoBehaviour
         entryPanel.SetActive(false);
         questPanel.SetActive(false);
         reputationPanel.SetActive(true);
+    }
+
+    //Prime
+    public void PrimeEntries(List<string> entries)
+    {
+
     }
 }

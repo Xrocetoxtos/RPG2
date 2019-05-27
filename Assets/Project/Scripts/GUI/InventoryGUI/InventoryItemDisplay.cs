@@ -103,7 +103,6 @@ public class InventoryItemDisplay : MonoBehaviour
 
     public void SelectButton()
     {
-        Debug.Log(item.objectTitle);
         GameObject.Find("InventoryWindow(Clone)").GetComponent<InventoryDisplay>().SelectObject(item);
     }
 }

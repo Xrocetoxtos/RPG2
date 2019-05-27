@@ -7,7 +7,8 @@ public class Journal : MonoBehaviour
     [SerializeField] private List<Quest> questList = new List<Quest>();
     public Dictionary<Quest, QuestGiver> questGivers = new Dictionary<Quest, QuestGiver>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
-    [SerializeField] private List<string> journalEntries = new List<string>();
+    //    [SerializeField] private List<string> journalEntries = new List<string>();
+    [SerializeField] private List<JournalEntry> journalEntries = new List<JournalEntry>();
     private GameHandler gameHandler;
 
     // vergelijkbare structuur met andere dingen (interacties met mensen, hints, etc)
@@ -18,69 +19,12 @@ public class Journal : MonoBehaviour
     }
 
     //Entries invoeren
-    public void InsertEntry(string entry)
+    public void InsertEntry(JournalEntry entry)
     {
         journalEntries.Add(entry);
     }
 
-    public void InsertQuestStarted(Quest quest, QuestGiver qg, NpcAI npcAI = null)
-    {
-        string entry = "I embarked upon a new quest";
-        if (npcAI != null)
-        {
-            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle ;
-        }
-        entry += ". ";
-        entry += quest.questDescription;
-        InsertEntry(entry);
-    }
 
-    public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
-    {
-        //entry quest schrijven
-        string entry = "I finished the quest I got";
-        if (npcAI != null)
-        {
-            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
-        }
-        entry += ". ";
-        entry += quest.questDescription;
-        InsertEntry(entry);
-
-        //popularityWithNPC bijwerken
-        AddPopularityDictionary(quest.popularityWithNPCCompleted);
-        //nog een opvolgquest als die bestaat
-        if (quest.nextQuest.Count > 0)
-        {
-            foreach (int q in quest.nextQuest)
-            {
-                Quest qu = gameHandler.GetQuestByID(q);
-                if (qu != null)
-                {
-                    if (qu.questStatus == QuestStatus.Closed)
-                    {
-                        qu.questStatus = QuestStatus.Open;
-                    }
-                }
-            }
-        }
-    }
-
-    public void InsertQuestFailed(Quest quest, NpcAI npcAI = null)
-    {
-        //entry quest schrijven
-        string entry = "I failed the quest '" + quest.questTitle +"' that I got";
-        if (npcAI != null)
-        {
-            entry += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
-        }
-        entry += ". ";
-        entry += quest.questDescription;
-        InsertEntry(entry);
-
-        //popularityWithNPC bijwerken
-        AddPopularityDictionary(quest.popularityWithNPCFailed);
-    }
 
     //Quest handling
     //==============
@@ -154,6 +98,71 @@ public class Journal : MonoBehaviour
         }
     }
 
+    public void InsertQuestStarted(Quest quest, QuestGiver qg, NpcAI npcAI = null)
+    {
+        string entryTxt = "I embarked upon a new quest";
+        if (npcAI != null)
+        {
+            entryTxt += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
+        }
+        entryTxt += ". ";
+        entryTxt += quest.questDescription;
+        JournalEntry entry = new JournalEntry(EntryTypes.Quest, entryTxt, quest, null);
+
+        InsertEntry(entry);
+    }
+
+    public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
+    {
+        //entry quest schrijven
+        string entryTxt = "I finished the quest I got";
+        if (npcAI != null)
+        {
+            entryTxt += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
+        }
+        entryTxt += ". ";
+        entryTxt += quest.questDescription;
+        JournalEntry entry = new JournalEntry(EntryTypes.Quest, entryTxt, quest, null);
+     
+        InsertEntry(entry);
+
+        //popularityWithNPC bijwerken
+        AddPopularityDictionary(quest.popularityWithNPCCompleted);
+        //nog een opvolgquest als die bestaat
+        if (quest.nextQuest.Count > 0)
+        {
+            foreach (int q in quest.nextQuest)
+            {
+                Quest qu = gameHandler.GetQuestByID(q);
+                if (qu != null)
+                {
+                    if (qu.questStatus == QuestStatus.Closed)
+                    {
+                        qu.questStatus = QuestStatus.Open;
+                    }
+                }
+            }
+        }
+    }
+
+    public void InsertQuestFailed(Quest quest, NpcAI npcAI = null)
+    {
+        //entry quest schrijven
+        string entryTxt = "I failed the quest '" + quest.questTitle + "' that I got";
+        if (npcAI != null)
+        {
+            entryTxt += " after talking to " + npcAI.gameObject.GetComponent<WorldObject>().objectTitle;
+        }
+        entryTxt += ". ";
+        entryTxt += quest.questDescription;
+
+        JournalEntry entry = new JournalEntry(EntryTypes.Quest, entryTxt, quest, null);
+        InsertEntry(entry);
+
+        //popularityWithNPC bijwerken
+        AddPopularityDictionary(quest.popularityWithNPCFailed);
+    }
+
     // Popularityhandling
     //===================
     public bool HasPopularity(NPC npc)
@@ -168,19 +177,21 @@ public class Journal : MonoBehaviour
 
     public void AddPopularity(NPC npc, int pop)
     {
-        string entry;
+        string entryTxt;
         //negatieve waarden zijn hier ook.
         if (!HasPopularity(npc))
         {
-            entry = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has been established at " + pop + ".";
+            entryTxt = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has been established at " + pop + ".";
             popularityWithNPC.Add(npc, pop);
         }
         else
         {
-            entry = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has changed from " + popularityWithNPC[npc];
+            entryTxt = "My popularity with " + npc.gameObject.GetComponent<WorldObject>().objectTitle + " has changed from " + popularityWithNPC[npc];
             popularityWithNPC[npc] += pop;
-            entry += " to " + popularityWithNPC[npc] + ".";
+            entryTxt += " to " + popularityWithNPC[npc] + ".";
         }
+        JournalEntry entry = new JournalEntry(EntryTypes.Reputation, entryTxt, null, npc, pop>0);
+
         InsertEntry(entry);
     }
 
