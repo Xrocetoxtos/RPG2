@@ -12,6 +12,8 @@ public class JournalDisplay : MonoBehaviour
     public Transform targetTransform;
 
     private Journal journal;
+    public JournalEntryDisplay journalEntryDisplayPrefab;
+    public JournalEntryDisplay selectedJournalEntry;
     private bool selectedPrimed = false;
 
     public Sprite entrySprite;
@@ -39,6 +41,23 @@ public class JournalDisplay : MonoBehaviour
         ButtonsForViews();
     }
 
+    public void Prime(List<JournalEntry> entries)
+    {
+        foreach(JournalEntry entry in entries)
+        {
+            if (selectedPrimed)
+            {
+                SelectEntry(entry);
+            }
+            PrimeEntry(entry);
+        }
+        if(selectedJournalEntry.entry==null)
+        {
+            selectedJournalEntry.Empty();
+        }
+        selectedPrimed = false;
+    }
+
     private void ButtonsForViews()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -58,28 +77,37 @@ public class JournalDisplay : MonoBehaviour
     //knoppen voor andere weergave
     public void GetEntries()
     {
-        entryPanel.SetActive(true);
-        questPanel.SetActive(false);
-        reputationPanel.SetActive(false);
+        //entryPanel.SetActive(true);
+        //questPanel.SetActive(false);
+        //reputationPanel.SetActive(false);
     }
 
     public void GetQuests()
     {
-        entryPanel.SetActive(false);
-        questPanel.SetActive(true);
-        reputationPanel.SetActive(false);
+        //entryPanel.SetActive(false);
+        //questPanel.SetActive(true);
+        //reputationPanel.SetActive(false);
     }
 
     public void GetReputation()
     {
-        entryPanel.SetActive(false);
-        questPanel.SetActive(false);
-        reputationPanel.SetActive(true);
+        //entryPanel.SetActive(false);
+        //questPanel.SetActive(false);
+        //reputationPanel.SetActive(true);
     }
 
-    //Prime
-    public void PrimeEntries(List<string> entries)
+    public void PrimeEntry(JournalEntry entry)
     {
-
+        JournalEntryDisplay display = (JournalEntryDisplay)Instantiate(journalEntryDisplayPrefab);
+        display.transform.SetParent(targetTransform, false);
+        display.Prime(entry);
     }
+
+    public void SelectEntry(JournalEntry entry)
+    {
+        selectedJournalEntry.Prime(entry);
+        selectedPrimed = true;
+    }
+
+
 }

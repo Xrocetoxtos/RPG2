@@ -8,14 +8,22 @@ public class JournalEntryDisplay : MonoBehaviour
 {
     public TextMeshProUGUI entryText;
     public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI objectiveText;
     public Image mainSprite;
     public Image statusSprite;
-    public JournalDisplay journal;
 
+    public JournalDisplay journal;
+    public GameObject objectivesObject;
+    public JournalEntry entry;
+
+    private void Awake()
+    {
+        journal = GameObject.Find("JournalWindow").GetComponent<JournalDisplay>();
+        objectivesObject = GameObject.Find("QuestObjectives");
+    }
 
     public void Prime(JournalEntry entry)
     {
-        journal = GameObject.Find("JournalWindow").GetComponent<JournalDisplay>();
         if (entryText!=null)
         {
             entryText.SetText(entry.entryText);
@@ -23,6 +31,10 @@ public class JournalEntryDisplay : MonoBehaviour
         if (descriptionText!=null)
         {
             PrimeDescription(entry);
+        }
+        if (objectiveText != null)
+        {
+            PrimeObjectives(entry);
         }
         if (mainSprite != null)
         {
@@ -32,7 +44,6 @@ public class JournalEntryDisplay : MonoBehaviour
         {
             PrimeStatusSprite(entry);
         }
-
     }
 
     private void PrimeDescription(JournalEntry entry)
@@ -61,6 +72,16 @@ public class JournalEntryDisplay : MonoBehaviour
                 }
         }
         descriptionText.SetText(desc);
+    }
+
+    private void PrimeObjectives(JournalEntry entry)
+    {
+        if (entry.entryType != EntryTypes.Quest)
+        {
+            objectivesObject.SetActive(false);
+            return;
+        }
+        objectivesObject.SetActive(true);
     }
 
     private void PrimeMainSprite(JournalEntry entry)
@@ -122,5 +143,34 @@ public class JournalEntryDisplay : MonoBehaviour
     public void SelectEntry()
     {
 
+    }
+
+    public void Empty()
+    {
+        if (entryText != null)
+        {
+            entryText.SetText("");
+        }
+        if (descriptionText != null)
+        {
+            descriptionText.SetText("No entries found.");
+        }
+        if (objectiveText != null)
+        {
+            objectivesObject.SetActive(false);
+        }
+        if (mainSprite != null)
+        {
+            mainSprite.enabled = false;
+        }
+        if (statusSprite != null)
+        {
+            statusSprite.enabled = false;
+        }
+    }
+
+    public void SelectButton()
+    {
+        journal.SelectEntry(entry);
     }
 }

@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class Journal : MonoBehaviour
 {
+    /*
+     * TODO: Ik moet ervoor zorgen dat alle entry-types een record leveren, ook in de display
+     * quests en reputatie moeten ervoor zorgen dat de display opnieuw wordt opgebouwd. 
+     * - entries tonen: alles
+     * - quests tonen: alle quests en dan de entries en objectives rondom de quests rechts
+     * - reputatie tonen: een visuele weergave van de reputatie per npc en de betreffende entries rechts
+     */
+
+
+    
     [SerializeField] private List<Quest> questList = new List<Quest>();
     public Dictionary<Quest, QuestGiver> questGivers = new Dictionary<Quest, QuestGiver>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
     //    [SerializeField] private List<string> journalEntries = new List<string>();
     [SerializeField] private List<JournalEntry> journalEntries = new List<JournalEntry>();
     private GameHandler gameHandler;
-
-    // vergelijkbare structuur met andere dingen (interacties met mensen, hints, etc)
+    private JournalDisplay display;
 
     private void Awake()
     {
         gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
+        display = GameObject.Find("JournalWindow").GetComponent<JournalDisplay>();
+        display.Prime(journalEntries);
     }
 
     //Entries invoeren
@@ -110,6 +121,7 @@ public class Journal : MonoBehaviour
         JournalEntry entry = new JournalEntry(EntryTypes.Quest, entryTxt, quest, null);
 
         InsertEntry(entry);
+        display.PrimeEntry(entry);
     }
 
     public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
