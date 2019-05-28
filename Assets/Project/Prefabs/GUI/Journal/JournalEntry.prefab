@@ -117,7 +117,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7798844890470802234}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3239713457164699339}
+        m_MethodName: SelectEntry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1779980388454092425
@@ -381,6 +392,37 @@ MonoBehaviour:
   statusSprite: {fileID: 9209867124043034391}
   journal: {fileID: 0}
   objectivesObject: {fileID: 0}
+  entryDisplay:
+    entryType: 0
+    entryQuest:
+      questStatus: 0
+      questGiver: {fileID: 0}
+      questID: 0
+      questTitle: 
+      questDescription: 
+      questOpenDialog: 
+      questPendingDialog: 
+      questActiveDialog: 
+      questSuccessfullDialog: 
+      questFailedDialog: 
+      questCompletedDialog: 
+      questActiveReply: 
+      questSuccessReply1: 
+      questSuccessReply2: 
+      questFailedReply: 
+      questCompletedReply: 
+      questObjectives: []
+      NPCCompleted: []
+      intCompleted: 
+      NPCFailed: []
+      intFailed: 
+      returnToGiver: 1
+      rewardObjects: []
+      rewardCoins: 0
+      nextQuest: 
+    entryNpc: {fileID: 0}
+    entryText: 
+    entryUpwards: 0
 --- !u!1 &3729682910342323049
 GameObject:
   m_ObjectHideFlags: 0

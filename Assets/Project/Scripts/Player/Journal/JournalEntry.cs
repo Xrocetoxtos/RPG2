@@ -1,4 +1,7 @@
-﻿public class JournalEntry
+﻿using UnityEngine;
+
+[System.Serializable]
+public class JournalEntry
 {
     public EntryTypes entryType;
     public Quest entryQuest;

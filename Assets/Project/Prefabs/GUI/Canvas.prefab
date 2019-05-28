@@ -2466,6 +2466,37 @@ MonoBehaviour:
   statusSprite: {fileID: 0}
   journal: {fileID: 0}
   objectivesObject: {fileID: 2091117591999584510}
+  entry:
+    entryType: 0
+    entryQuest:
+      questStatus: 0
+      questGiver: {fileID: 0}
+      questID: 0
+      questTitle: 
+      questDescription: 
+      questOpenDialog: 
+      questPendingDialog: 
+      questActiveDialog: 
+      questSuccessfullDialog: 
+      questFailedDialog: 
+      questCompletedDialog: 
+      questActiveReply: 
+      questSuccessReply1: 
+      questSuccessReply2: 
+      questFailedReply: 
+      questCompletedReply: 
+      questObjectives: []
+      NPCCompleted: []
+      intCompleted: 
+      NPCFailed: []
+      intFailed: 
+      returnToGiver: 1
+      rewardObjects: []
+      rewardCoins: 0
+      nextQuest: 
+    entryNpc: {fileID: 0}
+    entryText: 
+    entryUpwards: 0
 --- !u!1 &4310925997916711658
 GameObject:
   m_ObjectHideFlags: 0
@@ -6304,6 +6335,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: JournalEntry
       objectReference: {fileID: 0}
+    - target: {fileID: 3239713457164699339, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
+        type: 3}
+      propertyPath: journal
+      value: 
+      objectReference: {fileID: 6780027948076610388}
     - target: {fileID: 1820402475721084070, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6409,6 +6445,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3944908669797923555, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3944908669797923555, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2191372071023258490, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -6437,16 +6483,6 @@ PrefabInstance:
     - target: {fileID: 2191372071023258490, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3944908669797923555, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3944908669797923555, guid: 028f3ece9fbd98d48b9c7c96c8939af3,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

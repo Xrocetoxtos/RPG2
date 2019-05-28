@@ -131,7 +131,6 @@ public class QuestGiver : MonoBehaviour
     {
         if (relevantPosition != null)
         {
-            Debug.Log(relevantPosition.busyFirstThing);
             if (relevantPosition.busyFirstThing)
             {
                 dialogHandler.Talk(npcAI, quest.questTitle, quest.questCompletedDialog, quest.questCompletedReply, "", CompletedQuestUnblock, dialogHandler.DoNothing, quest, this);
@@ -160,7 +159,6 @@ public class QuestGiver : MonoBehaviour
 
         int ob = 0;
         int oc = quest.questObjectives.Length;
-        Debug.Log(quest.questTitle + " obj " + oc);
         foreach (QuestObjective qo in quest.questObjectives)
         {
             qo.CheckObjectiveCompleted();

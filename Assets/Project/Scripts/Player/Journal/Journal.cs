@@ -5,7 +5,7 @@ using UnityEngine;
 public class Journal : MonoBehaviour
 {
     /*
-     * TODO: Ik moet ervoor zorgen dat alle entry-types een record leveren, ook in de display
+     * TODO: 
      * quests en reputatie moeten ervoor zorgen dat de display opnieuw wordt opgebouwd. 
      * - entries tonen: alles
      * - quests tonen: alle quests en dan de entries en objectives rondom de quests rechts
@@ -18,10 +18,23 @@ public class Journal : MonoBehaviour
     public Dictionary<Quest, QuestGiver> questGivers = new Dictionary<Quest, QuestGiver>();
     [SerializeField] private Dictionary<NPC, int> popularityWithNPC = new Dictionary<NPC, int>();
     //    [SerializeField] private List<string> journalEntries = new List<string>();
-    [SerializeField] private List<JournalEntry> journalEntries = new List<JournalEntry>();
+    public List<JournalEntry> journalEntries = new List<JournalEntry>();
     private GameHandler gameHandler;
     private JournalDisplay display;
 
+
+    [Header("Display")]
+    public Sprite entrySprite;
+    public Sprite questSprite;
+    public Sprite reputationSprite;
+
+    public Sprite emptyVinkje;
+    public Sprite succesfullVinkje;
+    public Sprite completedVinkje;
+    public Sprite failedVinkje;
+
+    public Sprite upArrow;
+    public Sprite downArrow;
     private void Awake()
     {
         gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
@@ -33,6 +46,7 @@ public class Journal : MonoBehaviour
     public void InsertEntry(JournalEntry entry)
     {
         journalEntries.Add(entry);
+        display.PrimeEntry(entry);
     }
 
 
@@ -121,7 +135,6 @@ public class Journal : MonoBehaviour
         JournalEntry entry = new JournalEntry(EntryTypes.Quest, entryTxt, quest, null);
 
         InsertEntry(entry);
-        display.PrimeEntry(entry);
     }
 
     public void InsertQuestCompleted(Quest quest, NpcAI npcAI = null)
@@ -205,6 +218,7 @@ public class Journal : MonoBehaviour
         JournalEntry entry = new JournalEntry(EntryTypes.Reputation, entryTxt, null, npc, pop>0);
 
         InsertEntry(entry);
+
     }
 
     public void AddPopularityDictionary(Dictionary<NPC, int> dict)

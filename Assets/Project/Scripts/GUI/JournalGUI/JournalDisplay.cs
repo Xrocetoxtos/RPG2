@@ -16,17 +16,6 @@ public class JournalDisplay : MonoBehaviour
     public JournalEntryDisplay selectedJournalEntry;
     private bool selectedPrimed = false;
 
-    public Sprite entrySprite;
-    public Sprite questSprite;
-    public Sprite reputationSprite;
-
-    public Sprite emptyVinkje;
-    public Sprite succesfullVinkje;
-    public Sprite completedVinkje;
-    public Sprite failedVinkje;
-
-    public Sprite upArrow;
-    public Sprite downArrow;
 
     private void Awake()
     {
@@ -51,7 +40,7 @@ public class JournalDisplay : MonoBehaviour
             }
             PrimeEntry(entry);
         }
-        if(selectedJournalEntry.entry==null)
+        if(selectedJournalEntry.entryDisplay==null)
         {
             selectedJournalEntry.Empty();
         }
@@ -77,23 +66,20 @@ public class JournalDisplay : MonoBehaviour
     //knoppen voor andere weergave
     public void GetEntries()
     {
-        //entryPanel.SetActive(true);
-        //questPanel.SetActive(false);
-        //reputationPanel.SetActive(false);
+        EmptyDisplay();
+        PrimeOnTypes(journal.journalEntries,EntryTypes.Entry);
     }
 
     public void GetQuests()
     {
-        //entryPanel.SetActive(false);
-        //questPanel.SetActive(true);
-        //reputationPanel.SetActive(false);
+        EmptyDisplay();
+        PrimeOnTypes(journal.journalEntries, EntryTypes.Quest);
     }
 
     public void GetReputation()
     {
-        //entryPanel.SetActive(false);
-        //questPanel.SetActive(false);
-        //reputationPanel.SetActive(true);
+        EmptyDisplay();
+        PrimeOnTypes(journal.journalEntries, EntryTypes.Reputation);
     }
 
     public void PrimeEntry(JournalEntry entry)
@@ -109,5 +95,33 @@ public class JournalDisplay : MonoBehaviour
         selectedPrimed = true;
     }
 
+    private void EmptyDisplay()
+    {
+        foreach (Transform child in panel)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void PrimeOnTypes(List<JournalEntry> entries, EntryTypes entryType)
+    {
+        selectedPrimed = false;
+        foreach (JournalEntry entry in entries)
+        {
+            if (entry.entryType == entryType || entryType==EntryTypes.Entry)
+            {
+                if (!selectedPrimed)
+                {
+                    SelectEntry(entry);
+                }
+                PrimeEntry(entry);
+            }
+        }
+        if (selectedJournalEntry.entryDisplay == null)
+        {
+            selectedJournalEntry.Empty();
+        }
+        selectedPrimed = false;
+    }
 
 }

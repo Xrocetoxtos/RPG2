@@ -459,10 +459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db94002eed69d2d48906ec03b64cd62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureCoins: 0
+  creatureCoins: 100
   creatureInventory: []
   isPlayer: 0
-  inventoryDisplayPrefab: {fileID: 0}
+  inventoryDisplayPrefab: {fileID: 7430332430244894967, guid: 9e87e3f37bc77784198628a92ecfe740,
+    type: 3}
 --- !u!114 &6801845734392342746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +478,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questList: []
   journalEntries: []
+  entrySprite: {fileID: 21300000, guid: 69cb54db382c43d45b4eb73d827e5a95, type: 3}
+  questSprite: {fileID: 21300000, guid: cae3925d9988d7e43938a3f743c9a4f1, type: 3}
+  reputationSprite: {fileID: 21300000, guid: 870c090a02435124b8e250406dccea4b, type: 3}
+  emptyVinkje: {fileID: 21300000, guid: 7f2fe67896b5aa04db3e3a6b26effd5d, type: 3}
+  succesfullVinkje: {fileID: 21300000, guid: 1d2b9c8652d920e438b60c0cc1f658aa, type: 3}
+  completedVinkje: {fileID: 21300000, guid: eafd81b04b9476a49a86f8df913b1ccb, type: 3}
+  failedVinkje: {fileID: 21300000, guid: ff2ba86f182c2bc4c871126cee053644, type: 3}
+  upArrow: {fileID: 21300000, guid: d26548277db0d9247bbd3919a009528d, type: 3}
+  downArrow: {fileID: 21300000, guid: ebc2c4e9e1884684dbbf4b5279ec3d91, type: 3}
 --- !u!136 &3261409943289276509
 CapsuleCollider:
   m_ObjectHideFlags: 0

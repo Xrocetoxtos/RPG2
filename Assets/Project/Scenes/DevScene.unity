@@ -1414,6 +1414,18 @@ Transform:
   m_Father: {fileID: 911685504}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &627967285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6780027948076610388, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1519312337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a480bfa21b911247a41568b5508691e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &648310203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2963,16 +2975,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 627967285}
+    - target: {fileID: 1399106858342413416, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetEntries
       objectReference: {fileID: 0}
     - target: {fileID: 2936269606528272318, guid: fd779e4dfa84a774aacfc2dd50425f2e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 627967285}
+    - target: {fileID: 2936269606528272318, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetReputation
       objectReference: {fileID: 0}
     - target: {fileID: 4708725504004088203, guid: fd779e4dfa84a774aacfc2dd50425f2e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 627967285}
+    - target: {fileID: 4708725504004088203, guid: fd779e4dfa84a774aacfc2dd50425f2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetQuests
       objectReference: {fileID: 0}
     - target: {fileID: 5829592619658872452, guid: fd779e4dfa84a774aacfc2dd50425f2e,
         type: 3}
@@ -5000,34 +5027,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: creatureInventory.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: creatureInventory.Array.data[0]
-      value: 
-      objectReference: {fileID: 964233552686074361, guid: b9149dee7c029934fb8468a062ecf69f,
-        type: 3}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: creatureInventory.Array.data[1]
-      value: 
-      objectReference: {fileID: 4483544547503539084, guid: 6a9ec471a2bea1e47a3993d7e0d9e1f2,
-        type: 3}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: creatureInventory.Array.data[2]
-      value: 
-      objectReference: {fileID: 1377228418097476667, guid: 2e6fe7c5262781f4888c0cf24bf5e7f3,
-        type: 3}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: creatureCoins
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 452744428, guid: a05263f4f3ded234d85452f1d5bc627e, type: 3}
-      propertyPath: inventoryDisplayPrefab
-      value: 
-      objectReference: {fileID: 7430332430244894967, guid: 9e87e3f37bc77784198628a92ecfe740,
-        type: 3}
     - target: {fileID: 1898725910729533633, guid: a05263f4f3ded234d85452f1d5bc627e,
         type: 3}
       propertyPath: m_LocalPosition.x

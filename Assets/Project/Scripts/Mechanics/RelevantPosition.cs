@@ -30,15 +30,10 @@ public class RelevantPosition : MonoBehaviour
         {
             if (col.gameObject.tag == "Player")
             {
-                Debug.Log("ben er");
                 if (questGiver != null)
                 {
-                    Debug.Log("ben er qg");
-
                     if ((questGiver.quest.questStatus == QuestStatus.Open || questGiver.quest.questStatus == QuestStatus.Pending))
                     {
-                        Debug.Log("ben er q");
-
                         questGiver.InteractWithQuestGiver("testcollider", null, this);
                     }
                 }

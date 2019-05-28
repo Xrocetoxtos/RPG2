@@ -12,18 +12,19 @@ public class JournalEntryDisplay : MonoBehaviour
     public Image mainSprite;
     public Image statusSprite;
 
-    public JournalDisplay journal;
+    public Journal journal;
     public GameObject objectivesObject;
-    public JournalEntry entry;
+    public JournalEntry entryDisplay;
 
     private void Awake()
-    {
-        journal = GameObject.Find("JournalWindow").GetComponent<JournalDisplay>();
+    { 
+        journal = GameObject.Find("Player").GetComponent<Journal>();
         objectivesObject = GameObject.Find("QuestObjectives");
     }
 
     public void Prime(JournalEntry entry)
     {
+        entryDisplay = entry;
         if (entryText!=null)
         {
             entryText.SetText(entry.entryText);
@@ -53,20 +54,20 @@ public class JournalEntryDisplay : MonoBehaviour
         {
             case EntryTypes.Entry:
                 {
-                    desc += "I wrote the following in my journal, as I might have use of that later: \n\n";
+                    desc += "I wrote the following in my journal, as I might have use of that later: \n\n ";
                     desc += entry.entryText;
                     break;
                 }
             case EntryTypes.Quest:
                 {
                     desc += "I wrote down an update on the quest '" + entry.entryQuest.questTitle + "' for later reference: \n\n";
-                    desc += entry.entryText + "/n/n More on the quest: /n";
+                    desc += entry.entryText + " \n\n More on the quest: \n ";
                     desc += entry.entryQuest.questDescription;
                     break;
                 }
             case EntryTypes.Reputation:
                 {
-                    desc += "Whatever I did, it had some influence on what " + entry.entryNpc.gameObject.GetComponent<WorldObject>().objectTitle + " thinks of me, so I wrote that down:  /n/n";
+                    desc += "Whatever I did, it had some influence on what " + entry.entryNpc.gameObject.GetComponent<WorldObject>().objectTitle + " thinks of me, so I wrote that down:  \n\n ";
                     desc += entry.entryText;
                     break;
                 }
@@ -142,7 +143,7 @@ public class JournalEntryDisplay : MonoBehaviour
 
     public void SelectEntry()
     {
-
+        GameObject.Find("JournalWindow").GetComponent<JournalDisplay>().SelectEntry(entryDisplay);
     }
 
     public void Empty()
@@ -167,10 +168,5 @@ public class JournalEntryDisplay : MonoBehaviour
         {
             statusSprite.enabled = false;
         }
-    }
-
-    public void SelectButton()
-    {
-        journal.SelectEntry(entry);
     }
 }
